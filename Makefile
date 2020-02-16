@@ -5,15 +5,15 @@ SRC		=
 OBJ		=	$(SRC:.c=.o)
 
 CC		=	gcc
-CFLAGS	=	-Isrcs -Wall -Werror -Wextra -lmlx
+CFLAGS	=	-Wall -Werror -Wextra -Isrcs
 
 OS		=	$(shell uname -s)
 ifeq ($(OS), Linux)
 	MLXDIR	=	mlx_linux/
-	CFLAGS	+=	-I$(MLXDIR) -L$(MLXDIR) -lXext -lX11
+	CFLAGS	+=	-I$(MLXDIR) -L$(MLXDIR) -lmlx -lXext -lX11
 else
 	MLXDIR	=	mlx_opengl/
-	CFLAGS	+=	-I$(MLXDIR) -L$(MLXDIR) -framework OpenGL -framework AppKit
+	CFLAGS	+=	-I$(MLXDIR) -L$(MLXDIR) -lmlx -framework OpenGL -framework AppKit
 endif
 
 OBJS/%.o:	%.c
