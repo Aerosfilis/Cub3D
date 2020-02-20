@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/20 13:55:02 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/02/20 14:23:24 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 
 # include <sys/types.h>
 # include <stdlib.h>
+
+# define TEX_NO 0
+# define TEX_SO 1
+# define TEX_WE 2
+# define TEX_EA 3
+# define TEX_SPRITE 4
+# define NB_TEXTURE 5
 
 typedef struct		s_mlx
 {
@@ -33,10 +40,7 @@ typedef struct		s_data
 	t_pos			res;
 	t_pos			map_size;
 	unsigned char	**map;
-	char			*path_NO;
-	char			*path_SO;
-	char			*path_WE;
-	char			*path_EA;
+	char			*path_texture[NB_TEXTURE];
 	int				color_ceil;
 	int				color_floor;
 	char			*err_msg;
