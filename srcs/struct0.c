@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:37:51 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/20 14:21:36 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/02/20 17:37:51 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void			new_data(t_data *data, char *prog_name)
 	int			i;
 
 	if (!data)
-		ft_error(ENULLPTR, NULL); 
+		ft_error(ENULLPTR, NULL);
 	if (!(data = malloc(sizeof(t_data))))
 		ft_error(errno, NULL);
 	new_pos(&(data->res), 0, 0);
-	new_pos(&(data->map_size, 0, 0);
+	new_pos(&(data->map_size), 0, 0);
 	data->map = NULL;
 	i = -1;
 	while (++i < NB_TEXTURE)
@@ -67,12 +67,12 @@ void			free_data(t_data *data)
 			free(data->path_texture[i]);
 	if (data->err_msg)
 		free(data->err_msg);
-	free_mlx(data->mlx);
+	free_mlx(&(data->mlx));
 	free(data);
 }
 
 void			new_pos(t_pos *pos, ssize_t x, ssize_t y)
 {
-	pos->x = 0;
-	pos->y = 0;
+	pos->x = x;
+	pos->y = y;
 }

@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:55:26 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/20 13:56:07 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/02/20 16:50:13 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void			new_mlx(t_mlx *mlx)
 	mlx->win = NULL;
 }
 
-void			free_mlx(t_mlx *mlx);
+void			free_mlx(t_mlx *mlx)
 {
 	(void)mlx;
 }

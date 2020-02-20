@@ -6,23 +6,22 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:35:27 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/20 14:41:34 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/02/20 16:53:08 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include <unistd.h>
 #include <stdio.h>
-#include <errno.h>
 
-const char		*g-errlst[] =
+const char		*g_errlst[] =
 {
 	"\n",
 	"String pointer null\n",
 	"Passed Null pointer\n",
 	"Invalid settings\n",
 	"Invalid map\n"
-}
+};
 
 ssize_t			str_append(char **s1, const char *s2, size_t len, t_data *data)
 {
@@ -52,23 +51,15 @@ ssize_t			str_append(char **s1, const char *s2, size_t len, t_data *data)
 
 void			ft_error(int err, t_data *data)
 {
+	errno = err;
 	if (!data || !(data->err_msg))
-	{
-		errno = err;
 		perror("ERROR\n");
-	}
 	else if (err >= 0)
-	{
-		errno = err;
 		perror(data->err_msg);
-	}
 	else
 	{
-		if (!(str = malloc(sizeof(char))))
-			ft_error(errno, data);
-		str[0] = 0;
-		str_append(&(data->msg), g_errlst[-err], 0, data);
-		write(2, str, ft_strlen(data->msg));
+		str_append(&(data->err_msg), g_errlst[-err], 0, data);
+		write(2, data->err_msg, ft_strlen(data->err_msg));
 	}
 	if (data)
 		free_data(data);

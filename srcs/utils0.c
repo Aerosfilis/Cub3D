@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:24:07 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/20 11:47:46 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/02/20 17:37:32 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ size_t		djb2(const char *str)
 
 int			is_wspace(const char c)
 {
-	return (c == ' ' || c == '\n' || c == '\f' || c =='\t' || c == '\r'
+	return (c == ' ' || c == '\n' || c == '\f' || c == '\t' || c == '\r'
 			|| c == '\v');
 }
 

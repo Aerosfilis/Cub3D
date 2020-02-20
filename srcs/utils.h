@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:18:50 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/20 14:38:58 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/02/20 16:54:12 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <sys/types.h>
 # include <stdlib.h>
+# include <errno.h>
 # include "struct.h"
 
 # define ESPNULL -1
