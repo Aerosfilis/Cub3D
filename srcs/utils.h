@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:18:50 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/20 13:45:47 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/02/20 14:38:58 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 # define ESPNULL -1
 # define ENULLPTR -2
+# define EINVSET -3
+# define EINVMAP -4
 
 size_t		ft_strlen(const char *str);
 size_t		djb2(const char *str);

@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:35:27 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/20 13:42:00 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/02/20 14:41:34 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,15 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
+
+const char		*g-errlst[] =
+{
+	"\n",
+	"String pointer null\n",
+	"Passed Null pointer\n",
+	"Invalid settings\n",
+	"Invalid map\n"
+}
 
 ssize_t			str_append(char **s1, const char *s2, size_t len, t_data *data)
 {
