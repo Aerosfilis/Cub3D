@@ -1,39 +1,50 @@
 NAME	=	Cub3D
 
-SRC		=
+SRC		=	parse.c \
+			struct0.c \
+			struct1.c \
+			utils0.c \
+			utils1.c
 
-OBJ		=	$(SRC:.c=.o)
+OBJ		=	$(addprefix objs/, $(SRC:.c=.o))
+
+DEP		=	$(OBJ:%.o=%.d)
 
 CC		=	gcc
 CFLAGS	=	-Wall -Werror -Wextra -Isrcs -fsanitize=address
 
+############################ OS SPECIFIC FLAGS #################################
+
 OS		=	$(shell uname -s)
 ifeq ($(OS), Linux)
 	MLXDIR	=	mlx_linux/
-	CFLAGS	+=	-I$(MLXDIR)
 	GFLAGS	=	-L$(MLXDIR) -lmlx -I$(MLXDIR) -lXext -lX11
 else
 	MLXDIR	=	mlx_opengl/
-	CFLAGS	+=	-I$(MLXDIR)
 	GFLAGS	=	-L$(MLXDIR) -lmlx -I$(MLXDIR) -framework OpenGL -framework AppKit
 endif
 
-OBJS/%.o:	%.c
-			mkdir -p objs
-			$(CC) -c $(CFLAGS) $< -o $@d
+############################## MAIN OPTIONS ####################################
 
 all:		$(NAME)
 
-$(NAME):	$(addprefix srcs/, $(OBJS))
-			make -C ./$(MLXDIR) --no-print-directory
-			$(CC) $(CFLAGS) -o $(NAME) $(GFLAGS)
+-include $(DEP)
+objs/%.o:	srcs/%.c
+			@mkdir -p objs
+			$(CC) $(CFLAGS) -MMD -Isrcs -c $< -o $@
+
+$(NAME):	$(OBJ)
+			@make -C ./$(MLXDIR) --no-print-directory
+			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(GFLAGS)
 clean:
 			rm -rf objs
 
 fclean:		clean
-			rm $(NAME)
+			rm -f $(NAME)
 
 re:			fclean all
+
+############################ EXTRA OPTIONS #####################################
 
 os:
 			@echo "$(OS)"
@@ -44,3 +55,5 @@ cflags:
 test:
 			make -C ./$(MLXDIR) --no-print-directory
 			$(CC) $(CFLAGS) -o mlx_test mlx_test.c $(GFLAGS)
+
+.PHONY:		all clean fclean re $(NAME)
