@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:35:27 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/19 16:30:30 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/02/20 11:52:03 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ ssize_t			str_append(char **s1, const char *s2, size_t len, t_data *data)
 
 	if (!s1 || !(*s1) || !s2)
 		ft_error(ESPNULL, data);
-	if (!(res = malloc(sizeof(char)*(ft_strlen(*s1)
+	if (!(res = malloc(sizeof(char) * (ft_strlen(*s1)
 						+ (len == 0 ? ft_strlen(s2) : len) + 1))))
 		ft_error(errno, data);
 	i = -1;
@@ -91,6 +91,7 @@ t_data			*new_data(char *prog_name)
 	if (!(data->map = malloc(sizeof(unsigned char *))))
 		ft_error(errno, data);
 	data->map[0] = 0;
+	return (data);
 }
 
 static void		free_datamap(unsigned char **map)

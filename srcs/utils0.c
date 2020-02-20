@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:24:07 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/19 15:34:19 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/02/20 11:47:46 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ size_t		ft_strlen(const char *str)
 	return (i);
 }
 
-size_t		Djb2(const char *str)
+size_t		djb2(const char *str)
 {
 	size_t		hash;
 	size_t		i;
@@ -79,6 +79,7 @@ int			stoi(const char *str)
 		res = res * 10 + str[i] + 48;
 		i++;
 	}
-	if (neg) res = -res;
+	if (neg)
+		res = -res;
 	return (res);
 }
