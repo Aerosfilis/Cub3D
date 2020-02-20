@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:35:27 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/20 11:52:03 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/02/20 13:42:00 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,66 +64,4 @@ void			ft_error(int err, t_data *data)
 	if (data)
 		free_data(data);
 	exit(EXIT_FAILURE);
-}
-
-t_data			*new_data(char *prog_name)
-{
-	t_data	*data;
-
-	if (!(data = malloc(sizeof(t_data))))
-		ft_error(errno, NULL);
-	data->res_x = 0;
-	data->res_y = 0;
-	data->map_x = 0;
-	data->map_y = 0;
-	data->map = NULL;
-	data->path_NO = NULL;
-	data->path_SO = NULL;
-	data->path_WE = NULL;
-	data->path_EA = NULL;
-	data->color_ceil = 0;
-	data->color_floor = 0;
-	data->mlx = NULL;
-	if (!(res = malloc(sizeof(char) * (ft_strlen(prog_name) + ))))
-		ft_error(errno, data);
-	str_append(&(data->err_msg), "ERROR\n", 0, data);
-	str_append(&(data->err_msg), prog_name, 0, data);
-	if (!(data->map = malloc(sizeof(unsigned char *))))
-		ft_error(errno, data);
-	data->map[0] = 0;
-	return (data);
-}
-
-static void		free_datamap(unsigned char **map)
-{
-	size_t		i;
-
-	if (!map)
-		return ;
-	i = 0;
-	while (map[i])
-	{
-		free(map[i]);
-		i++;
-	}
-	free(map);
-}
-
-void			free_data(t_data *data)
-{
-	if (!data)
-		return ;
-	if (data->map)
-		free_datamap(data->map);
-	if (data->path_NO)
-		free(data->path_NO);
-	if (data->path_SO)
-		free(data->path_SO);
-	if (data->path_WE)
-		free(data->path_WE);
-	if (data->path_EA)
-		free(data->path_EA);
-	if (data->mlx)
-		free_mlx(data->mlx);
-	free(data);
 }
