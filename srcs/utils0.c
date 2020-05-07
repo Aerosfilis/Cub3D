@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:24:07 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/20 17:37:32 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/05 17:06:53 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,43 +24,10 @@ size_t		ft_strlen(const char *str)
 	return (i);
 }
 
-size_t		djb2(const char *str)
-{
-	size_t		hash;
-	size_t		i;
-
-	if (!str)
-		return (0);
-	hash = 5381;
-	i = 0;
-	while (str[i])
-	{
-		hash = (hash << 5) + hash + str[i];
-		i++;
-	}
-	return (hash);
-}
-
 int			is_wspace(const char c)
 {
 	return (c == ' ' || c == '\n' || c == '\f' || c == '\t' || c == '\r'
 			|| c == '\v');
-}
-
-ssize_t		hash_lookup(const size_t *hash_tab, const size_t hash)
-{
-	size_t		i;
-
-	i = 0;
-	if (!hash_tab)
-		return (-1);
-	while (hash_tab[i])
-	{
-		if (hash_tab[i] == hash)
-			return (i);
-		i++;
-	}
-	return (-1);
 }
 
 int			stoi(const char *str)

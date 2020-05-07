@@ -6,53 +6,75 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:37:51 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/20 17:37:51 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/07 16:55:21 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct.h"
 #include "utils.h"
 
+#include <stdio.h>
 void			new_data(t_data *data, char *prog_name)
 {
 	int			i;
 
 	if (!data)
 		ft_error(ENULLPTR, NULL);
-	if (!(data = malloc(sizeof(t_data))))
-		ft_error(errno, NULL);
+	new_pos(&(data->smap), 0, 0);
 	new_pos(&(data->res), 0, 0);
-	new_pos(&(data->map_size), 0, 0);
 	data->map = NULL;
 	i = -1;
 	while (++i < NB_TEXTURE)
-		data->path_texture[i] = NULL;
+		data->path_tex[i] = NULL;
 	new_mlx(&(data->mlx));
 	if (!(data->err_msg = malloc(sizeof(char))))
 		ft_error(errno, data);
 	data->err_msg[0] = 0;
-	str_append(&(data->err_msg), "ERROR\n", 0, data);
-	str_append(&(data->err_msg), prog_name, 0, data);
-	if (!(data->map = malloc(sizeof(unsigned char *))))
+	str_append(&(data->err_msg), "ERROR\n", -1, data);
+	str_append(&(data->err_msg), prog_name, -1, data);
+	if (!(data->map = malloc(sizeof(char *))))
 		ft_error(errno, data);
 	data->map[0] = 0;
 }
 
-static void		free_datamap(unsigned char **map)
+void			set_map(t_data *data)
+{
+	t_pos		pos;
+
+	if (!(data->map = malloc(sizeof(char *) * data->smap.x)))
+		ft_error(errno, data);
+	pos.x = -1;
+	while (++pos.x < data->smap.x)
+		data->map[pos.x] = NULL;
+	pos.x = -1;
+	while (++pos.x < data->smap.x)
+	{
+		if(!(data->map[pos.x] = malloc(sizeof(char) * data->smap.y)))
+			ft_error(errno, data);
+		pos.y = -1;
+		while (++pos.y < data->smap.y)
+			data->map[pos.x][pos.y] = !pos.x || !pos.y || pos.x + 1 ==
+				data->smap.x || pos.y + 1 == data->smap.y ? 1 : 0;
+	}
+}
+
+void			free_datamap(t_data *data)
 {
 	size_t		i;
 
-	if (!map)
+	if (!data->map)
 		return ;
 	i = 0;
-	while (map[i])
+	while (i < data->smap.x)
 	{
-		free(map[i]);
+		if (data->map[i])
+			free(data->map[i]);
 		i++;
 	}
-	free(map);
+	free(data->map);
 }
 
+#include <stdio.h>
 void			free_data(t_data *data)
 {
 	int		i;
@@ -60,15 +82,16 @@ void			free_data(t_data *data)
 	if (!data)
 		return ;
 	if (data->map)
-		free_datamap(data->map);
+		free_datamap(data);
 	i = -1;
-	while (i < NB_TEXTURE)
-		if (data->path_texture[i])
-			free(data->path_texture[i]);
+	while (++i < NB_TEXTURE)
+	{
+		if (data->path_tex[i])
+			free(data->path_tex[i]);
+	}
 	if (data->err_msg)
 		free(data->err_msg);
 	free_mlx(&(data->mlx));
-	free(data);
 }
 
 void			new_pos(t_pos *pos, ssize_t x, ssize_t y)

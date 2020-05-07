@@ -1,3 +1,5 @@
 **/*.sw[o/p]
 mlx_test
 **/*.[o/a/d]
+*.cub
+*.out

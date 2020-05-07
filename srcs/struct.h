@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/20 17:37:08 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/07 16:25:42 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,20 @@ typedef struct		s_pos
 typedef struct		s_data
 {
 	t_pos			res;
-	t_pos			map_size;
-	unsigned char	**map;
-	char			*path_texture[NB_TEXTURE];
-	int				color_ceil;
-	int				color_floor;
+	t_pos			smap;
+	char			**map;
+	char			*path_tex[NB_TEXTURE];
+	int				col_ceil;
+	int				col_floor;
 	char			*err_msg;
 	t_mlx			mlx;
 }					t_data;
 
 void				new_data(t_data *data, char *prog_name);
+void				free_datamap(t_data *data);
 void				free_data(t_data *data);
 void				new_pos(t_pos *pos, ssize_t x, ssize_t y);
+void				set_map(t_data *data);
 
 void				new_mlx(t_mlx *mlx);
 void				free_mlx(t_mlx *mlx);

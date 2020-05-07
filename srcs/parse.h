@@ -6,28 +6,20 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 21:37:32 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/02/20 17:35:13 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/07 13:34:32 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_H
 # define PARSE_H
 
-# include "utils.h"
-# include "struct.h"
 # include <sys/types.h>
-# include <fcntl.h>
-# include <unistd.h>
-# include <stdlib.h>
+# include "struct.h"
 
-/*
 void		parse(const char *pathname, t_data *data);
-ssize_t		get_next_line(const int fd, char **line);
-int			proc_line(char *line, t_data *data);
-void		set_data_texture(const *line, const size_t hash, t_data *data);
-void		set_data_color(const *line, const size_t hash, t_data *data);
-void		set_data_res(const *line, const size_t hash, t_data *data);
-void		set_data_map(const *line, const size_t hash, t_data *data);
-//*/
+void		set_data_res(const char *line, t_data *data);
+void		set_data_tex(const char *line, t_data *data);
+void		set_data_col(const char *line, t_data *data);
+void		set_data_map(const char *line, t_data *data);
 
 #endif
