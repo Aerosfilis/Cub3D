@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:24:07 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/07 17:09:35 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/07 17:12:00 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ const char		*g_errlst[] =
 	"Invalid map\n"
 };
 
-size_t		ft_strlen(const char *str)
+size_t			ft_strlen(const char *str)
 {
 	size_t		i;
 
@@ -35,7 +35,7 @@ size_t		ft_strlen(const char *str)
 	return (i);
 }
 
-int			stoi(const char *str)
+int				stoi(const char *str)
 {
 	long	res;
 	int		i;

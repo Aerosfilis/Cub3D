@@ -6,14 +6,13 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:37:51 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/07 16:55:21 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/07 17:13:09 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct.h"
 #include "utils.h"
 
-#include <stdio.h>
 void			new_data(t_data *data, char *prog_name)
 {
 	int			i;
@@ -49,7 +48,7 @@ void			set_map(t_data *data)
 	pos.x = -1;
 	while (++pos.x < data->smap.x)
 	{
-		if(!(data->map[pos.x] = malloc(sizeof(char) * data->smap.y)))
+		if (!(data->map[pos.x] = malloc(sizeof(char) * data->smap.y)))
 			ft_error(errno, data);
 		pos.y = -1;
 		while (++pos.y < data->smap.y)
@@ -74,7 +73,6 @@ void			free_datamap(t_data *data)
 	free(data->map);
 }
 
-#include <stdio.h>
 void			free_data(t_data *data)
 {
 	int		i;
