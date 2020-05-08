@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:24:07 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/07 17:12:00 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 14:01:54 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 const char		*g_errlst[] =
 {
 	"\n",
-	"String pointer null\n",
-	"Passed Null pointer\n",
-	"Invalid settings\n",
-	"Invalid map\n"
+	": String pointer null\n",
+	": Passed Null pointer\n",
+	": Invalid settings\n",
+	": Invalid map\n"
 };
 
 size_t			ft_strlen(const char *str)
@@ -56,6 +56,16 @@ int				stoi(const char *str)
 	return (res);
 }
 
+void			*maybeMalloc(size_t size, t_data *data)
+{
+	void	*res;
+
+	res = NULL;
+	if (!(res = malloc(size)))
+		ft_error(errno, data);
+	return res;
+}
+
 ssize_t			str_append(char **s1, const char *s2, ssize_t len, t_data *data)
 {
 	size_t		i;
@@ -64,9 +74,8 @@ ssize_t			str_append(char **s1, const char *s2, ssize_t len, t_data *data)
 
 	if (!s1 || !(*s1) || !s2)
 		ft_error(ESPNULL, data);
-	if (!(res = malloc(sizeof(char) * (ft_strlen(*s1)
-						+ (len < 0 ? ft_strlen(s2) : len) + 1))))
-		ft_error(errno, data);
+	res = maybeMalloc(sizeof(char) *
+			(ft_strlen(*s1) + (len < 0 ? ft_strlen(s2) : len) + 1), data);
 	i = -1;
 	while ((*s1)[++i])
 		res[i] = (*s1)[i];

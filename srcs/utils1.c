@@ -1,0 +1,74 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils1.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/05/08 13:49:23 by cbugnon           #+#    #+#             */
+/*   Updated: 2020/05/08 14:52:03 by cbugnon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "struct.h"
+#include "utils.h"
+#include <unistd.h>
+#include <fcntl.h>
+
+static ssize_t	readNext(const int fd, char *buf, char **line, t_data *data)
+{
+	ssize_t	res;
+
+	if ((res = read(fd, buf, BUFSIZE)) < 0)
+	{
+		free(*line);
+		ft_error(errno, data);
+	}
+	return (res);
+}
+
+ssize_t	gnl(const int fd, char **line, t_data *data)
+{
+	static char		buf[BUFSIZE];
+	static size_t	idx = 0;
+	static ssize_t	nb_b = 0;
+	size_t			i;
+
+	if ((!nb_b && (nb_b = read(fd, buf, BUFSIZE)) < 0))
+		ft_error(errno, data);
+	(*line) = maybeMalloc(sizeof(char), data);
+	(*line)[0] = 0;
+	if (!nb_b)
+		return (-1);
+	i = 0;
+	while (!i)
+	{
+		while (buf[idx + i] && buf[idx + i] != '\n' && idx + i < nb_b)
+			i++;
+		str_append(line, buf + idx, i, data);
+		idx = idx + i + 1 >= nb_b ? 0 : idx + i + 1;
+		i = !idx ? 0 : i;
+		i = !i && !idx ? i : 1;
+		if (!idx && !(nb_b = readNext(fd, buf, line, data)))
+			return (ft_strlen(*line));
+	}
+	return (ft_strlen(*line));
+}
+
+int		get_function(const char *l)
+{
+	if (l[0] == 'R' && l[1] == ' ')
+		return (0);
+	else if ((l[0] == 'N' && l[1] == 'O' && l[2] == ' ')
+			|| (l[0] == 'S' && l[1] == 'O' && l[2] == ' ')
+			|| (l[0] == 'W' && l[1] == 'E' && l[2] == ' ')
+			|| (l[0] == 'E' && l[1] == 'A' && l[2] == ' ')
+			|| (l[0] == 'S' && l[1] == ' '))
+		return (1);
+	else if ((l[0] == 'F' || l[0] == 'C') && l[1] == ' ')
+		return (2);
+	else if (l[0] == 0)
+		return (-1);
+	else
+		return (3);
+}

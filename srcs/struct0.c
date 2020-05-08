@@ -6,12 +6,13 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:37:51 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/07 17:13:09 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 14:52:05 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct.h"
 #include "utils.h"
+#include <unistd.h>
 
 void			new_data(t_data *data, char *prog_name)
 {
@@ -22,6 +23,7 @@ void			new_data(t_data *data, char *prog_name)
 	new_pos(&(data->smap), 0, 0);
 	new_pos(&(data->res), 0, 0);
 	data->map = NULL;
+	data->mapfd = 0;
 	i = -1;
 	while (++i < NB_TEXTURE)
 		data->path_tex[i] = NULL;
@@ -36,7 +38,7 @@ void			new_data(t_data *data, char *prog_name)
 	data->map[0] = 0;
 }
 
-void			set_map(t_data *data)
+static void		set_map(t_data *data)
 {
 	t_pos		pos;
 
@@ -57,6 +59,26 @@ void			set_map(t_data *data)
 	}
 }
 
+void			init_map(t_data *data, int fd)
+{
+	char	*line;
+	int		ismap;
+
+	ismap = 0;
+	while (gnl(fd, &line, data) >= 0)
+	{
+		if (get_function(line) != 3 && ismap)
+			ft_error(EINVMAP, data);
+		ismap = get_function(line) == 3 ? 1 : ismap;
+		data->smap.y += ismap;
+		data->smap.x = get_function(line) != 3 || data->smap.x >
+			ft_strlen(line) ? data->smap.x : ft_strlen(line);
+		free(line);
+	}
+	free(line);
+	set_map(data);
+}
+
 void			free_datamap(t_data *data)
 {
 	size_t		i;
@@ -67,10 +89,14 @@ void			free_datamap(t_data *data)
 	while (i < data->smap.x)
 	{
 		if (data->map[i])
+		{
 			free(data->map[i]);
+			data->map[i] = NULL;
+		}
 		i++;
 	}
 	free(data->map);
+	data->map = NULL;
 }
 
 void			free_data(t_data *data)
@@ -90,10 +116,7 @@ void			free_data(t_data *data)
 	if (data->err_msg)
 		free(data->err_msg);
 	free_mlx(&(data->mlx));
-}
-
-void			new_pos(t_pos *pos, ssize_t x, ssize_t y)
-{
-	pos->x = x;
-	pos->y = y;
+	if (data->mapfd > 0)
+		close(data->mapfd);
+	data->mapfd = 0;
 }

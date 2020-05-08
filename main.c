@@ -22,5 +22,10 @@ int	main(int ac, char **av)
 
 	printf("Map: %d %d\n", data.smap.x, data.smap.y);
 	for (int i=0; i < data.smap.y; i++)
-		printf("%s\n", data.map[i]);
+	{
+		for (int j=0; j < data.smap.x; j++)
+			printf("%d", data.map[j][i]);
+		printf("\n");
+	}
+	free_data(&data);
 }
