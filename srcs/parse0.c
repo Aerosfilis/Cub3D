@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 15:44:44 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 18:16:43 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 18:30:32 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-const void		(*g_set_data[8])(char *, t_data *) =
+void			(*g_set_data[8])(char *, t_data *) =
 {
 	set_data_res,
 	set_data_tex,
@@ -36,7 +36,7 @@ static void		init_map(t_data *data, int fd)
 		ismap = get_function(line) == 3 ? 1 : ismap;
 		data->smap.y += ismap;
 		data->smap.x = get_function(line) != 3 || data->smap.x >
-			ft_strlen(line) ? data->smap.x : ft_strlen(line);
+			(ssize_t)ft_strlen(line) ? data->smap.x : (ssize_t)ft_strlen(line);
 		free(line);
 	}
 	free(line);
@@ -88,7 +88,7 @@ void			set_data_res(char *line, t_data *data)
 	}
 }
 
-static int		check_path(char *path, t_data *data)
+static int		check_path(char *path)
 {
 	int		fd;
 
@@ -117,7 +117,7 @@ void			set_data_tex(char *line, t_data *data)
 	while (line[j + (++k)])
 		data->path_tex[i][k] = line[j + k];
 	data->path_tex[i][k] = 0;
-	if (check_path(data->path_tex[i], data) < 0)
+	if (check_path(data->path_tex[i]) < 0)
 	{
 		free(line);
 		ft_error(EINVSET, data);

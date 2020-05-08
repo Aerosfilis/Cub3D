@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 13:49:23 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 16:53:09 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 18:53:17 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ ssize_t			gnl(const int fd, char **line, t_data *data)
 	i = 0;
 	while (!i)
 	{
-		while (buf[idx + i] && buf[idx + i] != '\n' && idx + i < nb_b)
+		while (buf[idx + i] && buf[idx + i] != '\n' && idx + i < (size_t)nb_b)
 			i++;
 		str_append(line, buf + idx, i, data);
-		idx = idx + i + 1 >= nb_b ? 0 : idx + i + 1;
+		idx = idx + i + 1 >= (size_t)nb_b ? 0 : idx + i + 1;
 		i = !idx ? 0 : i;
 		i = !i && !idx ? i : 1;
 		if (!idx && !(nb_b = readnext(fd, buf, line, data)))

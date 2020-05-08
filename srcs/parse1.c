@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 17:48:02 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 18:16:13 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 18:21:35 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void			set_data_col(char *line, t_data *data)
 
 void			set_data_map(char *line, t_data *data)
 {
-	static size_t	idx = 0;
+	static ssize_t	idx = 0;
 	static int		isstartset = 0;
-	size_t			i;
+	ssize_t			i;
 
 	i = -1;
 	while (line[++i])

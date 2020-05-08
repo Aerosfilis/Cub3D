@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:24:07 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 16:26:08 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 18:50:22 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ void			*maybemalloc(size_t size, t_data *data)
 
 ssize_t			str_append(char **s1, const char *s2, ssize_t len, t_data *data)
 {
-	size_t		i;
-	size_t		j;
+	ssize_t		i;
+	ssize_t		j;
 	char		*res;
 
 	if (!s1 || !(*s1) || !s2)
 		ft_error(ESPNULL, data);
-	res = maybemalloc(sizeof(char) *
-			(ft_strlen(*s1) + (len < 0 ? ft_strlen(s2) : len) + 1), data);
+	res = maybemalloc(sizeof(char) * (ft_strlen(*s1) + (len < 0 ?
+			ft_strlen(s2) : (size_t)len) + 1), data);
 	i = -1;
 	while ((*s1)[++i])
 		res[i] = (*s1)[i];

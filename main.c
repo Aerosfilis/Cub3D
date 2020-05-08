@@ -9,7 +9,7 @@ int	main(int ac, char **av)
 
 	new_data(&data, av[0]);
 	parse(av[1], &data);
-	printf("Res: %d %d\n", data.res.x, data.res.y);
+	printf("Res: %ld %ld\n", data.res.x, data.res.y);
 	
 	printf("\nNO: %s\n", data.path_tex[TEX_NO]);
 	printf("SO: %s\n", data.path_tex[TEX_SO]);
@@ -20,7 +20,7 @@ int	main(int ac, char **av)
 	printf("\nC: %06x\n", data.col_ceil);
 	printf("F: %06x\n", data.col_floor);
 
-	printf("\nMap: %d %d\n", data.smap.x, data.smap.y);
+	printf("\nMap: %ld %ld\n", data.smap.x, data.smap.y);
 	for (int i=0; i < data.smap.y; i++)
 	{
 		for (int j=0; j < data.smap.x; j++)

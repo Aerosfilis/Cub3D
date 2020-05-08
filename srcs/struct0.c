@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:37:51 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 16:10:40 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 18:48:36 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void			set_map(t_data *data)
 
 void			free_datamap(t_data *data)
 {
-	size_t		i;
+	ssize_t		i;
 
 	if (!data->map)
 		return ;
