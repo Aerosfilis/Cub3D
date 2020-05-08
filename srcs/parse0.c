@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 15:44:44 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 17:34:21 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 18:16:43 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void			parse(const char *pathname, t_data *data)
 	close(data->mapfd);
 	data->mapfd = 0;
 	if ((data->mapfd = open(pathname, O_RDONLY)) < 0)
-	   ft_error(errno, data);
+		ft_error(errno, data);
 	while (gnl(data->mapfd, &line, data) >= 0)
 	{
 		if (get_function(line) >= 0)
@@ -66,7 +66,6 @@ void			parse(const char *pathname, t_data *data)
 	close(data->mapfd);
 }
 
-#include <stdio.h>
 void			set_data_res(char *line, t_data *data)
 {
 	size_t		i;
@@ -93,7 +92,7 @@ static int		check_path(char *path, t_data *data)
 {
 	int		fd;
 
-	if ((fd = open(path, O_RDONLY))  >= 0)
+	if ((fd = open(path, O_RDONLY)) >= 0)
 		close(fd);
 	return (fd);
 }
@@ -123,45 +122,4 @@ void			set_data_tex(char *line, t_data *data)
 		free(line);
 		ft_error(EINVSET, data);
 	}
-}
-
-static int		nextrgb(char *line)
-{
-	size_t	i;
-
-	i = 0;
-	while (line[i] >= '0' && line[i] <= '9')
-		i++;
-	return (i + (line[i] == ','));
-}
-
-void			set_data_col(char *line, t_data *data)
-{
-	size_t	i;
-	int		rgb[3];
-
-	i = 1;
-	while (line[i] == ' ')
-		i++;
-	rgb[0] = stoi(line + i);
-	i += nextrgb(line + i);
-	rgb[1] = stoi(line + i);
-	i += nextrgb(line + i);
-	rgb[2] = stoi(line + i);
-	while (line[i] >= '0' && line[i] <= '9')
-		i++;
-	if (line[0] == 'C')
-		data->col_ceil = rgbtoi(rgb);
-	else if (line[0] == 'F')
-		data->col_floor = rgbtoi(rgb);
-	if (line[i] || data->col_ceil < 0 || data->col_floor < 0)
-	{
-		free(line);
-		ft_error(EINVSET, data);
-	}
-}
-
-void			set_data_map(char *line, t_data *data)
-{
-	printf("set data map\n");
 }
