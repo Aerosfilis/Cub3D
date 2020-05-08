@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 13:41:24 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 16:10:29 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct		s_data
 void				new_data(t_data *data, char *prog_name);
 void				free_datamap(t_data *data);
 void				free_data(t_data *data);
-void				init_map(t_data *data, int fd);
+void				set_map(t_data *data);
 
 void				new_mlx(t_mlx *mlx);
 void				free_mlx(t_mlx *mlx);

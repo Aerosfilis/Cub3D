@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:24:07 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 14:01:54 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 16:26:08 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ int				stoi(const char *str)
 	neg = (str[0] == '-');
 	res = 0;
 	i = neg;
-	while (str[i])
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		res = res * 10 + str[i] + 48;
+		res = res * 10 + str[i] - 48;
 		i++;
 	}
 	if (neg)
@@ -56,14 +56,14 @@ int				stoi(const char *str)
 	return (res);
 }
 
-void			*maybeMalloc(size_t size, t_data *data)
+void			*maybemalloc(size_t size, t_data *data)
 {
 	void	*res;
 
 	res = NULL;
 	if (!(res = malloc(size)))
 		ft_error(errno, data);
-	return res;
+	return (res);
 }
 
 ssize_t			str_append(char **s1, const char *s2, ssize_t len, t_data *data)
@@ -74,7 +74,7 @@ ssize_t			str_append(char **s1, const char *s2, ssize_t len, t_data *data)
 
 	if (!s1 || !(*s1) || !s2)
 		ft_error(ESPNULL, data);
-	res = maybeMalloc(sizeof(char) *
+	res = maybemalloc(sizeof(char) *
 			(ft_strlen(*s1) + (len < 0 ? ft_strlen(s2) : len) + 1), data);
 	i = -1;
 	while ((*s1)[++i])

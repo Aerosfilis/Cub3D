@@ -17,8 +17,8 @@ int	main(int ac, char **av)
 	printf("EA: %s\n", data.path_tex[TEX_EA]);
 	printf("S: %s\n", data.path_tex[TEX_SPRITE]);
 
-	printf("\nC: %d\n", data.col_ceil);
-	printf("F: %d\n", data.col_floor);
+	printf("\nC: %06x\n", data.col_ceil);
+	printf("F: %06x\n", data.col_floor);
 
 	printf("Map: %d %d\n", data.smap.x, data.smap.y);
 	for (int i=0; i < data.smap.y; i++)

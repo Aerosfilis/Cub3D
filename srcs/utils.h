@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:18:50 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 13:55:28 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 16:59:50 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,16 @@
 # define EINVSET -3
 # define EINVMAP -4
 
-#define BUFSIZE 1024
+# define BUFSIZE 1024
 
 size_t		ft_strlen(const char *str);
 int			stoi(const char *str);
-void		*maybeMalloc(size_t size, t_data *data);
+void		*maybemalloc(size_t size, t_data *data);
 ssize_t		str_append(char **s1, const char *s2, ssize_t len, t_data *data);
 void		ft_error(int err, t_data *data);
 
 ssize_t		gnl(const int fd, char **line, t_data *data);
 int			get_function(const char *l);
+int			rgbtoi(int rgb[3]);
 
 #endif

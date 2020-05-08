@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:37:51 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 14:52:05 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 16:10:40 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void			new_data(t_data *data, char *prog_name)
 	data->map[0] = 0;
 }
 
-static void		set_map(t_data *data)
+void			set_map(t_data *data)
 {
 	t_pos		pos;
 
@@ -57,26 +57,6 @@ static void		set_map(t_data *data)
 			data->map[pos.x][pos.y] = !pos.x || !pos.y || pos.x + 1 ==
 				data->smap.x || pos.y + 1 == data->smap.y ? 1 : 0;
 	}
-}
-
-void			init_map(t_data *data, int fd)
-{
-	char	*line;
-	int		ismap;
-
-	ismap = 0;
-	while (gnl(fd, &line, data) >= 0)
-	{
-		if (get_function(line) != 3 && ismap)
-			ft_error(EINVMAP, data);
-		ismap = get_function(line) == 3 ? 1 : ismap;
-		data->smap.y += ismap;
-		data->smap.x = get_function(line) != 3 || data->smap.x >
-			ft_strlen(line) ? data->smap.x : ft_strlen(line);
-		free(line);
-	}
-	free(line);
-	set_map(data);
 }
 
 void			free_datamap(t_data *data)

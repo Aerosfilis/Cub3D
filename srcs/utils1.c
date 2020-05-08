@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 13:49:23 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 14:52:03 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 16:53:09 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-static ssize_t	readNext(const int fd, char *buf, char **line, t_data *data)
+static ssize_t	readnext(const int fd, char *buf, char **line, t_data *data)
 {
 	ssize_t	res;
 
@@ -27,7 +27,7 @@ static ssize_t	readNext(const int fd, char *buf, char **line, t_data *data)
 	return (res);
 }
 
-ssize_t	gnl(const int fd, char **line, t_data *data)
+ssize_t			gnl(const int fd, char **line, t_data *data)
 {
 	static char		buf[BUFSIZE];
 	static size_t	idx = 0;
@@ -36,7 +36,7 @@ ssize_t	gnl(const int fd, char **line, t_data *data)
 
 	if ((!nb_b && (nb_b = read(fd, buf, BUFSIZE)) < 0))
 		ft_error(errno, data);
-	(*line) = maybeMalloc(sizeof(char), data);
+	(*line) = maybemalloc(sizeof(char), data);
 	(*line)[0] = 0;
 	if (!nb_b)
 		return (-1);
@@ -49,13 +49,13 @@ ssize_t	gnl(const int fd, char **line, t_data *data)
 		idx = idx + i + 1 >= nb_b ? 0 : idx + i + 1;
 		i = !idx ? 0 : i;
 		i = !i && !idx ? i : 1;
-		if (!idx && !(nb_b = readNext(fd, buf, line, data)))
+		if (!idx && !(nb_b = readnext(fd, buf, line, data)))
 			return (ft_strlen(*line));
 	}
 	return (ft_strlen(*line));
 }
 
-int		get_function(const char *l)
+int				get_function(const char *l)
 {
 	if (l[0] == 'R' && l[1] == ' ')
 		return (0);
@@ -71,4 +71,18 @@ int		get_function(const char *l)
 		return (-1);
 	else
 		return (3);
+}
+
+int				rgbtoi(int rgb[3])
+{
+	int	r;
+	int	g;
+	int	b;
+
+	r = rgb[0];
+	g = rgb[1];
+	b = rgb[2];
+	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+		return (-1);
+	return ((r << 16) + (g << 8) + b);
 }
