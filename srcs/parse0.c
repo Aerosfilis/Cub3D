@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 15:44:44 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 16:59:06 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 17:34:21 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,40 @@ void			set_data_res(char *line, t_data *data)
 	}
 }
 
+static int		check_path(char *path, t_data *data)
+{
+	int		fd;
+
+	if ((fd = open(path, O_RDONLY))  >= 0)
+		close(fd);
+	return (fd);
+}
+
 void			set_data_tex(char *line, t_data *data)
 {
-	printf("set data tex\n");
+	int		i;
+	int		j;
+	int		k;
+
+	i = (line[0] == 'N') + 2 * (line[0] == 'S' && line[1] == 'O') + 3 *
+		(line[0] == 'W') + 4 * (line[0] == 'E');
+	j = 2 + (i > 0);
+	while (line[j] == ' ')
+		j++;
+	if (!(data->path_tex[i] = malloc(sizeof(char) * ft_strlen(line + j))))
+	{
+		free(line);
+		ft_error(errno, data);
+	}
+	k = -1;
+	while (line[j + (++k)])
+		data->path_tex[i][k] = line[j + k];
+	data->path_tex[i][k] = 0;
+	if (check_path(data->path_tex[i], data) < 0)
+	{
+		free(line);
+		ft_error(EINVSET, data);
+	}
 }
 
 static int		nextrgb(char *line)

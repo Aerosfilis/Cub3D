@@ -3,3 +3,4 @@ mlx_test
 **/*.[o/a/d]
 *.cub
 *.out
+tex_*

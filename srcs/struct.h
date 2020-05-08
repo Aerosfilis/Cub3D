@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 16:10:29 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/08 17:09:48 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 # include <stdlib.h>
 # include <errno.h>
 
-# define TEX_NO 0
-# define TEX_SO 1
-# define TEX_WE 2
-# define TEX_EA 3
-# define TEX_SPRITE 4
+# define TEX_SPRITE 0
+# define TEX_NO 1
+# define TEX_SO 2
+# define TEX_WE 3
+# define TEX_EA 4
 # define NB_TEXTURE 5
 
 typedef struct		s_mlx
