@@ -6,43 +6,57 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 17:48:02 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 18:21:35 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/13 18:47:50 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 #include "utils.h"
+#include <unistd.h>
+#include <fcntl.h>
 
-static int		nextrgb(char *line)
+static int		check_path(char *path)
 {
-	size_t	i;
+	int		fd;
 
-	i = 0;
-	while (line[i] >= '0' && line[i] <= '9')
-		i++;
-	return (i + (line[i] == ','));
+	if ((fd = open(path, O_RDONLY)) >= 0)
+		close(fd);
+	return (fd);
 }
 
-void			set_data_col(char *line, t_data *data)
+static int		pathlen(const char *str)
 {
-	size_t	i;
-	int		rgb[3];
+	size_t		i;
 
-	i = 1;
-	while (line[i] == ' ')
+	i = 0;
+	while (str[i])
 		i++;
-	rgb[0] = stoi(line + i);
-	i += nextrgb(line + i);
-	rgb[1] = stoi(line + i);
-	i += nextrgb(line + i);
-	rgb[2] = stoi(line + i);
-	while (line[i] >= '0' && line[i] <= '9')
-		i++;
-	if (line[0] == 'C')
-		data->col_ceil = rgbtoi(rgb);
-	else if (line[0] == 'F')
-		data->col_floor = rgbtoi(rgb);
-	if (line[i] || data->col_ceil < 0 || data->col_floor < 0)
+	while (i > 0 && str[i - 1] == ' ')
+		i--;
+	return (i);
+}
+
+void			set_data_tex(char *line, t_data *data)
+{
+	int		i;
+	int		j;
+	int		k;
+
+	i = (line[0] == 'N') + 2 * (line[0] == 'S' && line[1] == 'O') + 3 *
+		(line[0] == 'W') + 4 * (line[0] == 'E');
+	j = 2 + (i > 0);
+	while (line[j] == ' ')
+		j++;
+	if (!(data->path_tex[i] = malloc(sizeof(char) * (pathlen(line + j) + 1))))
+	{
+		free(line);
+		ft_error(errno, data);
+	}
+	k = -1;
+	while (++k < pathlen(line + j))
+		data->path_tex[i][k] = line[j + k];
+	data->path_tex[i][k] = 0;
+	if (check_path(data->path_tex[i]) < 0)
 	{
 		free(line);
 		ft_error(EINVSET, data);

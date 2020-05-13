@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 21:37:32 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 17:49:48 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/13 18:40:33 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 
 void		parse(const char *pathname, t_data *data);
 void		set_data_res(char *line, t_data *data);
-void		set_data_tex(char *line, t_data *data);
-
 void		set_data_col(char *line, t_data *data);
+
+void		set_data_tex(char *line, t_data *data);
 void		set_data_map(char *line, t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 15:44:44 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 18:30:32 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/13 18:54:26 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void			set_data_res(char *line, t_data *data)
 	data->res.y = stoi(line + i);
 	while (line[i] >= '0' && line[i] <= '9')
 		i++;
+	while (line[i] == ' ')
+		i++;
 	if (line[i] || data->res.x < 1 || data->res.y < 1)
 	{
 		free(line);
@@ -88,36 +90,46 @@ void			set_data_res(char *line, t_data *data)
 	}
 }
 
-static int		check_path(char *path)
+static int		nextrgb(char *line)
 {
-	int		fd;
+	size_t	i;
 
-	if ((fd = open(path, O_RDONLY)) >= 0)
-		close(fd);
-	return (fd);
+	i = 0;
+	while (line[i] >= '0' && line[i] <= '9')
+		i++;
+	while (line[i] == ' ')
+		i++;
+	if (line[i] == ',')
+	{
+		i++;
+		while(line[i] == ' ')
+			i++;
+	}
+	return (i);
 }
 
-void			set_data_tex(char *line, t_data *data)
+void			set_data_col(char *line, t_data *data)
 {
-	int		i;
-	int		j;
-	int		k;
+	size_t	i;
+	int		rgb[3];
 
-	i = (line[0] == 'N') + 2 * (line[0] == 'S' && line[1] == 'O') + 3 *
-		(line[0] == 'W') + 4 * (line[0] == 'E');
-	j = 2 + (i > 0);
-	while (line[j] == ' ')
-		j++;
-	if (!(data->path_tex[i] = malloc(sizeof(char) * ft_strlen(line + j))))
-	{
-		free(line);
-		ft_error(errno, data);
-	}
-	k = -1;
-	while (line[j + (++k)])
-		data->path_tex[i][k] = line[j + k];
-	data->path_tex[i][k] = 0;
-	if (check_path(data->path_tex[i]) < 0)
+	i = 1;
+	while (line[i] == ' ')
+		i++;
+	rgb[0] = stoi(line + i);
+	i += nextrgb(line + i);
+	rgb[1] = stoi(line + i);
+	i += nextrgb(line + i);
+	rgb[2] = stoi(line + i);
+	while (line[i] >= '0' && line[i] <= '9')
+		i++;
+	while (line[i] == ' ')
+		i++;
+	if (line[0] == 'C')
+		data->col_ceil = rgbtoi(rgb);
+	else if (line[0] == 'F')
+		data->col_floor = rgbtoi(rgb);
+	if (line[i] || data->col_ceil < 0 || data->col_floor < 0)
 	{
 		free(line);
 		ft_error(EINVSET, data);

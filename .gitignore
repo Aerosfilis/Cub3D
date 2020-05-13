@@ -4,3 +4,4 @@ mlx_test
 *.cub
 *.out
 tex_*
+ParsingTester
