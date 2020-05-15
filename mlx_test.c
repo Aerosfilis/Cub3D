@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <limits.h>
 #include <time.h>
+#include <string.h>
 
 #define WSX 600
 #define WSY 450
@@ -136,17 +137,27 @@ int	loop_event(t_mlx_struct *mlx)
 	return 0;
 }
 
-int	main()
+int	main(int ac, char **av)
 {
 	int				i, j;
 	t_mlx_struct	mlx;
-	
+	void			*image;
+	int				w, h;
+
 	get_fps();
 	for (i=0; i<USHRT_MAX; i++) mlx.k_press[i] = 0;
 
 	mlx.ptr = mlx_init();
 	mlx.win = mlx_new_window(mlx.ptr, WSX, WSY, "mlx test");
 	mlx_do_key_autorepeaton(mlx.ptr);
+	
+	if (ac > 1)
+	{
+		image = mlx_xpm_file_to_image(mlx.ptr, av[1], &w, &h);
+		mlx_destroy_image(mlx.ptr, image);
+		printf("Image load successful.\n");
+	}
+	(void)ac;(void)av;(void)w;(void)h;(void)image;
 	
 	for (i=0; i<10; i++)
 		for (j=0; j<10; j++)

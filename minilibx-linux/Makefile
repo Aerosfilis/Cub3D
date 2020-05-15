@@ -19,9 +19,4 @@ do_configure	:
 clean	:
 	./configure clean
 
-fclean	: clean
-
 re	: clean all
-
-install:
-	$(MAKE) -f Makefile.gen $@

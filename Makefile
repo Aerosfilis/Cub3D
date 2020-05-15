@@ -17,7 +17,7 @@ CFLAGS	=	-Wall -Werror -Wextra -Isrcs -fsanitize=address
 
 OS		=	$(shell uname -s)
 ifeq ($(OS), Linux)
-	MLXDIR	=	mlx_linux/
+	MLXDIR	=	minilibx-linux/
 	GFLAGS	=	-L$(MLXDIR) -lmlx -I$(MLXDIR) -lXext -lX11
 else
 	MLXDIR	=	mlx_opengl/

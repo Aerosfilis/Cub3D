@@ -7,14 +7,6 @@ if [ -n "$1" -a "$1" = "--help" ] ; then
 fi
 
 
-if [ -n "$1" -a "$1" = "clean" ] ; then
-    echo "Now make it clean."
-    make -f Makefile.gen clean
-    (cd test ; make -f Makefile.gen clean)
-    exit
-fi
-
-
 conf_inc=NO
 
 for inc in \
@@ -23,6 +15,7 @@ for inc in \
     /usr/X11R5/include        \
     /usr/X11R4/include        \
                               \
+    /usr/include              \
     /usr/include/X11          \
     /usr/include/X11R6        \
     /usr/include/X11R5        \
@@ -89,6 +82,14 @@ cat Makefile.mk | grep -v %%%% >> Makefile.gen
 /bin/echo "DOCP=$conf_docp" >> test/Makefile.gen
 cat test/Makefile.mk | grep -v %%%% >> test/Makefile.gen
 
+
+if [ -n "$1" -a "$1" = "clean" ] ; then
+    echo "Now make it clean."
+    make -f Makefile.gen clean
+    (cd test ; make -f Makefile.gen clean)
+    exit
+fi
+
 echo "Now make it."
 make -f Makefile.gen all
-#(cd test ; make -f Makefile.gen all )
+(cd test ; make -f Makefile.gen all )
