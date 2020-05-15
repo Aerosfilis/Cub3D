@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 15:44:44 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/13 18:54:26 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/15 14:48:11 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ static void		init_map(t_data *data, int fd)
 	while (gnl(fd, &line, data) >= 0)
 	{
 		if (get_function(line) != 3 && ismap)
+		{
+			free(line);
 			ft_error(EINVMAP, data);
+		}
 		ismap = get_function(line) == 3 ? 1 : ismap;
 		data->smap.y += ismap;
 		data->smap.x = get_function(line) != 3 || data->smap.x >
