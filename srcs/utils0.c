@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:24:07 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 18:50:22 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/25 15:45:49 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ const char		*g_errlst[] =
 	": String pointer null\n",
 	": Passed Null pointer\n",
 	": Invalid settings\n",
-	": Invalid map\n"
+	": Invalid map\n",
+	": Invalid arguments\n"
 };
 
 size_t			ft_strlen(const char *str)

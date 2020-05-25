@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 17:09:48 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/25 16:57:52 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@
 # define TEX_WE 3
 # define TEX_EA 4
 # define NB_TEXTURE 5
+
+# define MAPEMPTY 0
+# define MAPWALL 1
+# define MAPSPRITE 10
+# define MAPNORTH 50
+# define MAPSOUTH 51
+# define MAPEAST 52
+# define MAPWEST 53
 
 typedef struct		s_mlx
 {

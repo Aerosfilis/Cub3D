@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:18:50 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 16:59:50 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/25 15:45:24 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define ENULLPTR -2
 # define EINVSET -3
 # define EINVMAP -4
+# define EINVARG -5
 
 # define BUFSIZE 1024
 

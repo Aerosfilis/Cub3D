@@ -1,6 +1,9 @@
 NAME	=	Cub3D
 
-SRC		=	parse.c \
+SRC		=	cub3d.c \
+			parse0.c \
+			parse1.c \
+			parse2.c \
 			struct0.c \
 			struct1.c \
 			utils0.c \
@@ -17,7 +20,7 @@ CFLAGS	=	-Wall -Werror -Wextra -Isrcs -fsanitize=address
 
 OS		=	$(shell uname -s)
 ifeq ($(OS), Linux)
-	MLXDIR	=	minilibx-linux/
+	MLXDIR	=	mlx_linux/
 	GFLAGS	=	-L$(MLXDIR) -lmlx -I$(MLXDIR) -lXext -lX11
 else
 	MLXDIR	=	mlx_opengl/

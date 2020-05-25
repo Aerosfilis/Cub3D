@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 17:48:02 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/13 18:47:50 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/26 00:16:32 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,28 +65,28 @@ void			set_data_tex(char *line, t_data *data)
 
 void			set_data_map(char *line, t_data *data)
 {
-	static ssize_t	idx = 0;
-	static int		isstartset = 0;
-	ssize_t			i;
+	static ssize_t	y = 0;
+	ssize_t			x;
+	static int		startset = 0;
 
-	i = -1;
-	while (line[++i])
-		if (line[i] != ' ')
+	x = -1;
+	while (line[++x])
+	{
+		data->map[x][y] = MAPWALL * (line[x] == '1' || line[x] == ' ') +
+			MAPSPRITE * (line[x] == '2') + MAPNORTH * (line[x] == 'N') +
+			MAPSOUTH * (line[x] == 'S') + MAPEAST * (line[x] == 'E') +
+			MAPWEST * (line[x] == 'W');
+		startset += (line[x] == 'N' || line[x] == 'S' || line[x] == 'E'
+			|| line[x] == 'W');
+		if (((x == 0 || x == data->smap.x - 1 || y == 0 || y ==
+			data->smap.y - 1 || !line[x + 1]) && data->map[x][y] != MAPWALL)
+			|| startset > 1 || (y >= data->smap.y - 1 && startset != 1))
 		{
-			if (line[i] >= '0' && line[i] <= '2' && ((idx > 0
-					&& idx < data->smap.y && i > 0 && i < data->smap.x)
-					|| line[i] == '1'))
-				data->map[i][idx] = line[i] - 48;
-			else if (!isstartset && (line[i] == 'N' || line[i] == 'S' || line[i]
-					== 'W' || line[i] == 'E') && ((idx > 0 && idx < data->smap.y
-					&& i > 0 && i < data->smap.x) || line[i] == '1'))
-				data->map[i][idx] = 3 + (line[i] == 'S')
-					+ 2 * (line[i] == 'W') + 3 * (line[i] == 'E');
-			else
-			{
-				free(line);
-				ft_error(EINVMAP, data);
-			}
+			free(line);
+			ft_error(EINVMAP, data);
 		}
-	idx++;
+	}
+	y++;
+	if (y >= data->smap.y)
+		check_enclosed(line, data);
 }

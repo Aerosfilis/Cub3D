@@ -154,8 +154,13 @@ int	main(int ac, char **av)
 	if (ac > 1)
 	{
 		image = mlx_xpm_file_to_image(mlx.ptr, av[1], &w, &h);
-		mlx_destroy_image(mlx.ptr, image);
-		printf("Image load successful.\n");
+		if (image)
+		{
+			mlx_destroy_image(mlx.ptr, image);
+			printf("Image load successful.\n");
+		}
+		else
+			printf("Error while loading image.\n");
 	}
 	(void)ac;(void)av;(void)w;(void)h;(void)image;
 	

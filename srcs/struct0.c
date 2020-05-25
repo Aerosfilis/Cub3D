@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:37:51 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 18:48:36 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/25 19:04:32 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ void			set_map(t_data *data)
 			ft_error(errno, data);
 		pos.y = -1;
 		while (++pos.y < data->smap.y)
-			data->map[pos.x][pos.y] = !pos.x || !pos.y || pos.x + 1 ==
-				data->smap.x || pos.y + 1 == data->smap.y ? 1 : 0;
+			data->map[pos.x][pos.y] = 0;
 	}
 }
 

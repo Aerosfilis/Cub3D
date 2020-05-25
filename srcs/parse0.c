@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 15:44:44 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/15 14:48:11 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/05/25 20:39:03 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ static int		nextrgb(char *line)
 	size_t	i;
 
 	i = 0;
+	if (line[i] < '0' || line[i] > '9')
+		return (0);
 	while (line[i] >= '0' && line[i] <= '9')
 		i++;
 	while (line[i] == ' ')
@@ -105,7 +107,7 @@ static int		nextrgb(char *line)
 	if (line[i] == ',')
 	{
 		i++;
-		while(line[i] == ' ')
+		while (line[i] == ' ')
 			i++;
 	}
 	return (i);
