@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:37:51 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/25 19:04:32 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/05 16:25:20 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void			new_data(t_data *data, char *prog_name)
 	i = -1;
 	while (++i < NB_TEXTURE)
 		data->path_tex[i] = NULL;
-	new_mlx(&(data->mlx));
 	if (!(data->err_msg = malloc(sizeof(char))))
 		ft_error(errno, data);
 	data->err_msg[0] = 0;
@@ -36,6 +35,7 @@ void			new_data(t_data *data, char *prog_name)
 	if (!(data->map = malloc(sizeof(char *))))
 		ft_error(errno, data);
 	data->map[0] = 0;
+	mlx_null(&(data->mlx));
 }
 
 void			set_map(t_data *data)
@@ -76,6 +76,7 @@ void			free_datamap(t_data *data)
 	}
 	free(data->map);
 	data->map = NULL;
+	free_mlx(&(data->mlx));
 }
 
 void			free_data(t_data *data)

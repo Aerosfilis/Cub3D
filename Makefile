@@ -34,7 +34,7 @@ all:		$(NAME)
 -include $(DEP)
 objs/%.o:	srcs/%.c
 			@mkdir -p objs
-			$(CC) $(CFLAGS) -MMD -Isrcs -c $< -o $@
+			$(CC) $(CFLAGS) -MMD -Isrcs -c $< -o $@ $(GFLAGS)
 
 $(NAME):	$(OBJ)
 			@make -C ./$(MLXDIR) --no-print-directory

@@ -6,13 +6,15 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/25 15:34:31 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/25 19:03:53 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/05 18:06:12 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct.h"
 #include "utils.h"
 #include "parse.h"
+#include "event.h"
+#include "mlx.h"
 #include <sys/types.h>
 
 static int	check_arg(int ac, char **av, t_data *data)
@@ -37,6 +39,10 @@ int			main(int ac, char **av)
 	new_data(&data, av[0]);
 	check_arg(ac, av, &data);
 	parse(av[1], &data);
-	free_data(&data);
-	return (0);
+	new_mlx(&(data.mlx), av[0], &data);
+	mlx_hook(data.mlx.win, 2, 1, key_press_event, &data);
+	mlx_hook(data.mlx.win, 3, 2, key_release_event, &data);
+	mlx_loop_hook(data.mlx.ptr, loop_event, &data);
+	mlx_loop(data.mlx.ptr);
+	ft_error(EMLX, &data);
 }

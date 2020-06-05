@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/25 16:57:52 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/05 18:27:41 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <sys/types.h>
 # include <stdlib.h>
 # include <errno.h>
+# include <limits.h>
 
 # define TEX_SPRITE 0
 # define TEX_NO 1
@@ -32,10 +33,28 @@
 # define MAPEAST 52
 # define MAPWEST 53
 
+#define NBKEYS 
+#ifdef __linux__
+# define KW 119
+# define KA 97
+# define KS 115
+# define KD 100
+# define SH 65505
+# define ES 65307
+#else
+# define KW 13
+# define KA 0
+# define KS 1
+# define KD 2
+# define SH 257
+# define ES
+#endif
+
 typedef struct		s_mlx
 {
 	void			*ptr;
 	void			*win;
+	unsigned char	k_press[USHRT_MAX];
 }					t_mlx;
 
 typedef struct		s_pos
@@ -62,7 +81,8 @@ void				free_datamap(t_data *data);
 void				free_data(t_data *data);
 void				set_map(t_data *data);
 
-void				new_mlx(t_mlx *mlx);
+void				mlx_null(t_mlx *mlx);
+void				new_mlx(t_mlx *mlx, char *prog_name, t_data *data);
 void				free_mlx(t_mlx *mlx);
 void				new_pos(t_pos *pos, ssize_t x, ssize_t y);
 
