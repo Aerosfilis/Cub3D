@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/05 18:27:41 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/05 22:32:16 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@
 # define MAPEAST 52
 # define MAPWEST 53
 
-#define NBKEYS 
+# define UNIT 100
+
 #ifdef __linux__
 # define KW 119
 # define KA 97
@@ -50,18 +51,23 @@
 # define ES
 #endif
 
+typedef struct		s_pos
+{
+	size_t			x;
+	size_t			y;
+}					t_pos;
+
 typedef struct		s_mlx
 {
 	void			*ptr;
 	void			*win;
-	unsigned char	k_press[USHRT_MAX];
+	unsigned char	kpr[USHRT_MAX];
+	t_pos			chr;
+	t_pos			ori;
+	void			*tex[NB_TEXTURE];
+	t_pos			tres[NB_TEXTURE];
+	void			*scn;
 }					t_mlx;
-
-typedef struct		s_pos
-{
-	ssize_t			x;
-	ssize_t			y;
-}					t_pos;
 
 typedef struct		s_data
 {
@@ -84,6 +90,6 @@ void				set_map(t_data *data);
 void				mlx_null(t_mlx *mlx);
 void				new_mlx(t_mlx *mlx, char *prog_name, t_data *data);
 void				free_mlx(t_mlx *mlx);
-void				new_pos(t_pos *pos, ssize_t x, ssize_t y);
+void				new_pos(t_pos *pos, size_t x, size_t y);
 
 #endif

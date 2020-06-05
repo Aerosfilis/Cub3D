@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 17:48:02 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/26 00:16:32 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/05 22:29:08 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void			set_data_tex(char *line, t_data *data)
 
 void			set_data_map(char *line, t_data *data)
 {
-	static ssize_t	y = 0;
-	ssize_t			x;
+	static size_t	y = 0;
+	size_t			x;
 	static int		startset = 0;
 
 	x = -1;

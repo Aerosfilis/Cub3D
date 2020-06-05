@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/25 18:22:55 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/25 23:48:23 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/05 22:29:55 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include "parse.h"
 #include <sys/types.h>
 
-static ssize_t	find_checkstart(char *line, t_data *data)
+static size_t	find_checkstart(char *line, t_data *data)
 {
-	ssize_t	x;
+	size_t	x;
 	int		enclosed;
 
 	x = data->smap.x - 2;
@@ -33,7 +33,7 @@ static ssize_t	find_checkstart(char *line, t_data *data)
 	return (x);
 }
 
-static void		check_endline(char *line, ssize_t x, ssize_t y, t_data *data)
+static void		check_endline(char *line, size_t x, size_t y, t_data *data)
 {
 	while (x < data->smap.x - 1)
 	{
@@ -48,8 +48,8 @@ static void		check_endline(char *line, ssize_t x, ssize_t y, t_data *data)
 
 void			check_enclosed(char *line, t_data *data)
 {
-	ssize_t	x;
-	ssize_t	y;
+	size_t	x;
+	size_t	y;
 
 	x = find_checkstart(line, data);
 	y = 0;

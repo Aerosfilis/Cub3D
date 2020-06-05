@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <time.h>
 #include <string.h>
+#include <stdint.h>
 
 #define WSX 600
 #define WSY 450

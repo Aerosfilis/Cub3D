@@ -1,6 +1,7 @@
 NAME	=	Cub3D
 
 SRC		=	cub3d.c \
+			event0.c \
 			parse0.c \
 			parse1.c \
 			parse2.c \

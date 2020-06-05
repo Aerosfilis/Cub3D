@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:24:07 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/05 15:46:12 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/05 22:10:12 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ const char		*g_errlst[] =
 	": Invalid settings\n",
 	": Invalid map\n",
 	": Invalid arguments\n",
-	": MLX init error\n"
+	": MLX init error\n",
+	": Invalid texture\n"
 };
 
 size_t			ft_strlen(const char *str)

@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 15:44:44 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/25 20:39:03 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/05 23:02:43 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void		init_map(t_data *data, int fd)
 		ismap = get_function(line) == 3 ? 1 : ismap;
 		data->smap.y += ismap;
 		data->smap.x = get_function(line) != 3 || data->smap.x >
-			(ssize_t)ft_strlen(line) ? data->smap.x : (ssize_t)ft_strlen(line);
+			ft_strlen(line) ? data->smap.x : ft_strlen(line);
 		free(line);
 	}
 	free(line);
@@ -76,7 +76,7 @@ void			set_data_res(char *line, t_data *data)
 	i = 2;
 	while (line[i] == ' ')
 		i++;
-	data->res.x = stoi(line + i);
+	data->res.x = (stoi(line + i) >= 0) ? (size_t)stoi(line + i) : 0;
 	while (line[i] >= '0' && line[i] <= '9')
 		i++;
 	while (line[i] == ' ')
