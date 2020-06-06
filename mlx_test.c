@@ -152,7 +152,7 @@ int	main(int ac, char **av)
 	void			*image;
 	int				w, h;
 
-	printf("Test: %lx\n", 1L<<17);
+	printf("Test: %ld %d %d\n", LONG_MAX, (int)LONG_MAX, (long)LONG_MAX == (int)LONG_MAX);
 
 	get_fps();
 	for (i=0; i<USHRT_MAX; i++) mlx.k_press[i] = 0;

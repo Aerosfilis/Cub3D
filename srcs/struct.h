@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/06 17:40:18 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/06 19:02:18 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ typedef struct		s_pos
 	size_t			y;
 }					t_pos;
 
+typedef struct		s_wall
+{
+	t_pos			pos;
+	void			*tex;
+}					t_wall;
+
 typedef struct		s_mlx
 {
 	void			*ptr;
@@ -65,6 +71,7 @@ typedef struct		s_mlx
 	unsigned char	kpr[USHRT_MAX];
 	t_pos			chr;
 	int				ori;
+	int				height;
 	void			*tex[NB_TEXTURE];
 	t_pos			tres[NB_TEXTURE];
 	void			*scn;

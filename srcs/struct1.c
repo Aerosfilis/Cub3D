@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:55:26 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/06 17:41:40 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/06 19:02:43 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void			mlx_null(t_mlx *mlx)
 		mlx->kpr[i] = 0;
 	new_pos(&(mlx->chr), 0, 0);
 	mlx->ori = 0;
+	mlx->height = 0;
 	i = -1;
 	while (++i < NB_TEXTURE)
 	{

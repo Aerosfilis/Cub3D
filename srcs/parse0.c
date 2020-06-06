@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 15:44:44 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/05 23:02:43 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/06 19:16:51 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ void			set_data_res(char *line, t_data *data)
 		i++;
 	while (line[i] == ' ')
 		i++;
-	if (line[i] || data->res.x < 1 || data->res.y < 1)
+	if (line[i] || data->res.x < 1 || data->res.y < 1 || data->res.x !=
+			(int)data->res.x || data->res.y != (int)data->res.y)
 	{
 		free(line);
 		ft_error(EINVSET, data);
