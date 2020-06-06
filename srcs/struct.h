@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/06 05:18:34 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/06 17:40:18 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,23 @@
 # define MAPWEST 53
 
 # define UNIT 100
+# define RADDIV 200
 
-#ifdef __linux__
-# define KW 119
-# define KA 97
-# define KS 115
-# define KD 100
-# define SH 65505
-# define ES 65307
-#else
-# define KW 13
-# define KA 0
-# define KS 1
-# define KD 2
-# define SH 257
-# define ES
-#endif
+# ifdef __linux__
+#  define KW 119
+#  define KA 97
+#  define KS 115
+#  define KD 100
+#  define SH 65505
+#  define ES 65307
+# else
+#  define KW 13
+#  define KA 0
+#  define KS 1
+#  define KD 2
+#  define SH 257
+#  define ES
+# endif
 
 typedef struct		s_pos
 {
@@ -63,7 +64,7 @@ typedef struct		s_mlx
 	void			*win;
 	unsigned char	kpr[USHRT_MAX];
 	t_pos			chr;
-	double			ori;
+	int				ori;
 	void			*tex[NB_TEXTURE];
 	t_pos			tres[NB_TEXTURE];
 	void			*scn;

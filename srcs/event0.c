@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event0.h                                           :+:      :+:    :+:   */
+/*   event0.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 22:42:11 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/05 22:44:45 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/06 17:42:28 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "event.h"
 #include "struct.h"
 
-int key_press(int key, t_mlx *mlx)
+int		key_press(int key, t_mlx *mlx)
 {
 	if (key >= USHRT_MAX || key < 0)
 		return (0);
@@ -24,10 +24,10 @@ int key_press(int key, t_mlx *mlx)
 	mlx->kpr[KW] += (key == KS && mlx->kpr[KW] == 1);
 	mlx->kpr[KD] += (key == KA && mlx->kpr[KD] == 1);
 	mlx->kpr[KA] += (key == KD && mlx->kpr[KA] == 1);
- 	return (0);
+	return (0);
 }
 
-int key_release(int key, t_mlx *mlx)
+int		key_release(int key, t_mlx *mlx)
 {
 	if (key >= USHRT_MAX || key < 0)
 		return (0);
@@ -39,8 +39,8 @@ int key_release(int key, t_mlx *mlx)
 	return (0);
 }
 
-int loop(t_data *data)
+int		loop(t_data *data)
 {
 	(void)data;
-	return (0); 
+	return (0);
 }

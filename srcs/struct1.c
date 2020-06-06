@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:55:26 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/06 05:26:33 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/06 17:41:40 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void			set_start(t_mlx *mlx, t_data *data)
 				mlx->chr.x = x * UNIT + UNIT / 2;
 				mlx->chr.y = y * UNIT + UNIT / 2;
 				mlx->ori = ((data->map[x][y] == MAPNORTH) + 2 * (data->map[x][y]
-						== MAPWEST) + 3 * (data->map[x][y] == MAPSOUTH)) * M_PI;
+						== MAPWEST) + 3 * (data->map[x][y] == MAPSOUTH))
+						* RADDIV;
 				return ;
 			}
 		}
@@ -64,8 +65,10 @@ void			new_mlx(t_mlx *mlx, char *prog_name, t_data *data)
 	int			width;
 	int			height;
 
-	if (!(mlx->ptr = mlx_init()) || !(mlx->win = mlx_new_window(mlx->ptr,
-			data->res.x, data->res.y, prog_name)))
+	if (!(mlx->ptr = mlx_init()))
+		ft_error(EMLX, data);
+	if (!(mlx->win = mlx_new_window(mlx->ptr, data->res.x,
+					data->res.y, prog_name)))
 		ft_error(EMLX, data);
 	set_start(mlx, data);
 	i = -1;
