@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/05 22:32:16 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/06 05:18:34 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct		s_mlx
 	void			*win;
 	unsigned char	kpr[USHRT_MAX];
 	t_pos			chr;
-	t_pos			ori;
+	double			ori;
 	void			*tex[NB_TEXTURE];
 	t_pos			tres[NB_TEXTURE];
 	void			*scn;

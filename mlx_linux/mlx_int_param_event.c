@@ -78,7 +78,7 @@ int	(*(mlx_int_param_event[]))() =
   mlx_int_param_generic,
   mlx_int_param_generic,
   mlx_int_param_generic,
-  mlx_int_param_generic,
+  mlx_int_param_generic,  /* DestroyNotify 1L<<17 */
   mlx_int_param_generic,
   mlx_int_param_generic,
   mlx_int_param_generic,

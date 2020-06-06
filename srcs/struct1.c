@@ -6,10 +6,11 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:55:26 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/05 22:35:38 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/06 05:26:33 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "utils.h"
 #include "struct.h"
 #include "mlx.h"
@@ -24,7 +25,7 @@ void			mlx_null(t_mlx *mlx)
 	while (++i < USHRT_MAX)
 		mlx->kpr[i] = 0;
 	new_pos(&(mlx->chr), 0, 0);
-	new_pos(&(mlx->ori), 0, 0);
+	mlx->ori = 0;
 	i = -1;
 	while (++i < NB_TEXTURE)
 	{
@@ -49,10 +50,8 @@ void			set_start(t_mlx *mlx, t_data *data)
 			{
 				mlx->chr.x = x * UNIT + UNIT / 2;
 				mlx->chr.y = y * UNIT + UNIT / 2;
-				mlx->ori.x = (data->map[x][y] == MAPEAST)
-						- (data->map[x][y] == MAPWEST);
-				mlx->ori.y = (data->map[x][y] == MAPSOUTH)
-						- (data->map[x][y] == MAPNORTH);
+				mlx->ori = ((data->map[x][y] == MAPNORTH) + 2 * (data->map[x][y]
+						== MAPWEST) + 3 * (data->map[x][y] == MAPSOUTH)) * M_PI;
 				return ;
 			}
 		}

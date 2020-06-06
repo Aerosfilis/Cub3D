@@ -1,5 +1,6 @@
 #include "mlx.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <limits.h>
 #include <time.h>
 #include <string.h>
@@ -41,7 +42,6 @@ int				get_fps()
 	(void)total;
 	return total;
 }
-
 
 int	key_press_event(int keycode, t_mlx_struct *mlx)
 {
@@ -138,12 +138,21 @@ int	loop_event(t_mlx_struct *mlx)
 	return 0;
 }
 
+int destroy_event(t_mlx_struct *mlx)
+{
+	(void)mlx;
+	printf("EXITING\n");
+	exit(0);
+}
+
 int	main(int ac, char **av)
 {
 	int				i, j;
 	t_mlx_struct	mlx;
 	void			*image;
 	int				w, h;
+
+	printf("Test: %lx\n", 1L<<17);
 
 	get_fps();
 	for (i=0; i<USHRT_MAX; i++) mlx.k_press[i] = 0;
@@ -169,9 +178,11 @@ int	main(int ac, char **av)
 		for (j=0; j<10; j++)
 			mlx_pixel_put(mlx.ptr, mlx.win, WSX/2-5+i, WSY/2-5+j, 0x00FFFFFF);
 	
-	mlx_hook(mlx.win, 2, 1, key_press_event, &mlx);
-	mlx_hook(mlx.win, 3, 2, key_release_event, &mlx);
+	mlx_hook(mlx.win, 2, 1L<<0, key_press_event, &mlx);
+	mlx_hook(mlx.win, 3, 1L<<1, key_release_event, &mlx);
 	mlx_loop_hook(mlx.ptr, loop_event, &mlx);
+
+	mlx_hook(mlx.win, 17, 1L<<17, destroy_event, &mlx); 
 	
 	mlx_loop(mlx.ptr);
 
