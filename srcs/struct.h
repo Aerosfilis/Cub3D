@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/06 19:02:18 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/11 01:40:17 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,6 @@
 # define MAPEAST 52
 # define MAPWEST 53
 
-# define UNIT 100
-# define RADDIV 200
-
 # ifdef __linux__
 #  define KW 119
 #  define KA 97
@@ -60,8 +57,10 @@ typedef struct		s_pos
 
 typedef struct		s_wall
 {
-	t_pos			pos;
-	void			*tex;
+	double			x;
+	double			y;
+	double			dist;
+	int				side;
 }					t_wall;
 
 typedef struct		s_mlx
@@ -69,9 +68,11 @@ typedef struct		s_mlx
 	void			*ptr;
 	void			*win;
 	unsigned char	kpr[USHRT_MAX];
-	t_pos			chr;
-	int				ori;
-	int				height;
+	double			x;
+	double			y;
+	double			z;
+	double			ox;
+	double			oy;
 	void			*tex[NB_TEXTURE];
 	t_pos			tres[NB_TEXTURE];
 	void			*scn;

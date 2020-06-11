@@ -6,15 +6,16 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/25 15:34:31 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/05 22:46:11 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/11 04:56:24 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/types.h>
+#include "parse.h"
+#include "render.h"
+#include "event.h"
 #include "struct.h"
 #include "utils.h"
-#include "parse.h"
-#include "event.h"
 #include "mlx.h"
 
 static int	check_arg(int ac, char **av, t_data *data)

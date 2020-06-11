@@ -5,6 +5,7 @@ SRC		=	cub3d.c \
 			parse0.c \
 			parse1.c \
 			parse2.c \
+			render0.c \
 			struct0.c \
 			struct1.c \
 			utils0.c \

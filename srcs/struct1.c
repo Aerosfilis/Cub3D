@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:55:26 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/06 19:02:43 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/07 05:11:49 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ void			mlx_null(t_mlx *mlx)
 	i = -1;
 	while (++i < USHRT_MAX)
 		mlx->kpr[i] = 0;
-	new_pos(&(mlx->chr), 0, 0);
-	mlx->ori = 0;
-	mlx->height = 0;
+	mlx->z = 0;
 	i = -1;
 	while (++i < NB_TEXTURE)
 	{
@@ -49,11 +47,12 @@ void			set_start(t_mlx *mlx, t_data *data)
 		{
 			if (data->map[x][y] >= MAPNORTH && data->map[x][y] <= MAPWEST)
 			{
-				mlx->chr.x = x * UNIT + UNIT / 2;
-				mlx->chr.y = y * UNIT + UNIT / 2;
-				mlx->ori = ((data->map[x][y] == MAPNORTH) + 2 * (data->map[x][y]
-						== MAPWEST) + 3 * (data->map[x][y] == MAPSOUTH))
-						* RADDIV;
+				mlx->x = (double)x + 0.5;
+				mlx->y = (double)y + 0.5;
+				mlx->ox = (data->map[x][y] == MAPEAST)
+						- (data->map[x][y] == MAPWEST);
+				mlx->oy = (data->map[x][y] == MAPSOUTH)
+						- (data->map[x][y] == MAPNORTH);
 				return ;
 			}
 		}
