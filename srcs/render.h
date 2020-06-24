@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 21:36:12 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/24 10:29:26 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/24 10:48:22 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <sys/types.h>
 # include "struct.h"
 
-# define FOV (double)66
+# define FOV 66.0
 
 typedef struct	s_wall
 {

@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:55:26 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/22 17:14:42 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/24 10:48:05 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void			mlx_null(t_mlx *mlx)
 	while (++i < NB_TEXTURE)
 		img_null(&(mlx->tex[i]));
 	img_null(&mlx->scn);
+	mlx->wdist = NULL;
 }
 
 void			set_start(t_mlx *mlx, t_data *data)
@@ -70,6 +71,7 @@ void			new_mlx(t_mlx *mlx, char *prog_name, t_data *data)
 	while (++i < NB_TEXTURE)
 		new_tex(i, &(mlx->tex[i]), data);
 	new_img(&mlx->scn, (int)data->res.x, (int)data->res.y, data);
+	mlx->wdist = maybemalloc(sizeof(double) * data->res.x, data);
 }
 
 void			free_mlx(t_mlx *mlx)

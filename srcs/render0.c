@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 19:08:25 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/24 10:31:15 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/24 10:42:11 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@
 #define ORIX 4
 #define ORIY 5
 
-#include <stdio.h>
 t_img			*get_texture(t_wall wall, t_data *data)
 {
-	long	res = wall.side + 2 *(wall.side ? (data->mlx.x > wall.x) : (data->mlx.y < wall.y));
+	long	res = wall.side + 2 *(wall.side ? (data->mlx.x > wall.x)
+			: (data->mlx.y < wall.y));
 	(void)data;
 	return (void*)res;
 }
@@ -45,7 +45,8 @@ void			draw_vertical(t_vert_render rdr, t_img *tex, t_mlx *mlx,
 			mlx_pixel_put(mlx->ptr, mlx->win, rdr.x, rdr.y, data->col_ceil);
 		else if (rdr.y < ((double)data->res.y / 2 + 0.25 *
 				(double)data->res.x / rdr.dist / tan(FOV / 360 * M_PI)))
-			mlx_pixel_put(mlx->ptr, mlx->win, rdr.x, rdr.y, (int)(long)tex * 85);
+			mlx_pixel_put(mlx->ptr, mlx->win, rdr.x, rdr.y,
+					(int)(long)tex * 85);
 		else
 			mlx_pixel_put(mlx->ptr, mlx->win, rdr.x, rdr.y, data->col_floor);
 		rdr.y++;
@@ -71,6 +72,7 @@ void			cycle_angle(t_mlx *mlx, t_data *data)
 		wall = next_wall(mlx->ox * rdr.cos - mlx->oy * rdr.sin,
 			mlx->ox * rdr.sin + mlx->oy * rdr.cos, mlx, data);
 		rdr.dist = wall.dist * rdr.cos;
+		mlx->wdist[rdr.x] = rdr.dist;
 		rdr.y = 0;
 		draw_vertical(rdr, get_texture(wall, data), mlx, data);
 		rdr.x++;

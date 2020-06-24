@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/24 10:07:21 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/24 10:41:41 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct		s_mlx
 	double			oy;
 	t_img			tex[NB_TEXTURE];
 	t_img			scn;
+	double			*wdist;
 }					t_mlx;
 
 typedef struct		s_data
