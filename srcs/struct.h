@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/11 01:40:17 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/24 10:07:21 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@
 #  define KD 100
 #  define SH 65505
 #  define ES 65307
+#  define AL 65361
+#  define AR 65363
 # else
 #  define KW 13
 #  define KA 0
@@ -47,6 +49,8 @@
 #  define KD 2
 #  define SH 257
 #  define ES
+#  define AL
+#  define AR
 # endif
 
 typedef struct		s_pos
@@ -55,13 +59,16 @@ typedef struct		s_pos
 	size_t			y;
 }					t_pos;
 
-typedef struct		s_wall
+typedef struct		s_img
 {
-	double			x;
-	double			y;
-	double			dist;
-	int				side;
-}					t_wall;
+	void			*ptr;
+	int				x;
+	int				y;
+	char			*addr;
+	int				bpp;
+	int				sl;
+	int				endian;
+}					t_img;
 
 typedef struct		s_mlx
 {
@@ -73,9 +80,8 @@ typedef struct		s_mlx
 	double			z;
 	double			ox;
 	double			oy;
-	void			*tex[NB_TEXTURE];
-	t_pos			tres[NB_TEXTURE];
-	void			*scn;
+	t_img			tex[NB_TEXTURE];
+	t_img			scn;
 }					t_mlx;
 
 typedef struct		s_data
@@ -100,5 +106,10 @@ void				mlx_null(t_mlx *mlx);
 void				new_mlx(t_mlx *mlx, char *prog_name, t_data *data);
 void				free_mlx(t_mlx *mlx);
 void				new_pos(t_pos *pos, size_t x, size_t y);
+
+void				img_null(t_img *tex);
+void				free_img(t_img *tex, t_mlx *mlx);
+void				new_tex(int i, t_img *tex, t_data *data);
+void				new_img(t_img *scn, int x, int y, t_data *data);
 
 #endif

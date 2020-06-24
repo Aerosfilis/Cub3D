@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:55:26 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/07 05:11:49 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/22 17:14:42 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,8 @@ void			mlx_null(t_mlx *mlx)
 	mlx->z = 0;
 	i = -1;
 	while (++i < NB_TEXTURE)
-	{
-		mlx->tex[i] = NULL;
-		new_pos(&(mlx->tres[i]), 0, 0);
-	}
-	mlx->scn = NULL;
+		img_null(&(mlx->tex[i]));
+	img_null(&mlx->scn);
 }
 
 void			set_start(t_mlx *mlx, t_data *data)
@@ -62,8 +59,6 @@ void			set_start(t_mlx *mlx, t_data *data)
 void			new_mlx(t_mlx *mlx, char *prog_name, t_data *data)
 {
 	size_t		i;
-	int			width;
-	int			height;
 
 	if (!(mlx->ptr = mlx_init()))
 		ft_error(EMLX, data);
@@ -73,17 +68,18 @@ void			new_mlx(t_mlx *mlx, char *prog_name, t_data *data)
 	set_start(mlx, data);
 	i = -1;
 	while (++i < NB_TEXTURE)
-	{
-		if (!(mlx->tex[i] = mlx_xpm_file_to_image(mlx->ptr, data->path_tex[i],
-				&width, &height)))
-			ft_error(ETEXTURE, data);
-		mlx->tres[i].x = (size_t)width;
-		mlx->tres[i].y = (size_t)height;
-	}
+		new_tex(i, &(mlx->tex[i]), data);
+	new_img(&mlx->scn, (int)data->res.x, (int)data->res.y, data);
 }
 
 void			free_mlx(t_mlx *mlx)
 {
+	int		i;
+
+	i = -1;
+	while (++i < NB_TEXTURE)
+		free_img(&mlx->tex[i], mlx);
+	free_img(&mlx->scn, mlx);
 	if (mlx->win)
 		mlx_destroy_window(mlx->ptr, mlx->win);
 	if (mlx->ptr)

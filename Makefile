@@ -8,6 +8,7 @@ SRC		=	cub3d.c \
 			render0.c \
 			struct0.c \
 			struct1.c \
+			struct2.c \
 			utils0.c \
 			utils1.c
 
@@ -23,10 +24,10 @@ CFLAGS	=	-Wall -Werror -Wextra -Isrcs -fsanitize=address
 OS		=	$(shell uname -s)
 ifeq ($(OS), Linux)
 	MLXDIR	=	mlx_linux/
-	GFLAGS	=	-L$(MLXDIR) -lmlx -I$(MLXDIR) -lXext -lX11
+	GFLAGS	=	-L$(MLXDIR) -lmlx -I$(MLXDIR) -lXext -lX11 -lm
 else
 	MLXDIR	=	mlx_opengl/
-	GFLAGS	=	-L$(MLXDIR) -lmlx -I$(MLXDIR) -framework OpenGL -framework AppKit
+	GFLAGS	=	-L$(MLXDIR) -lmlx -I$(MLXDIR) -framework OpenGL -framework AppKit -lm
 endif
 
 ############################## MAIN OPTIONS ####################################
