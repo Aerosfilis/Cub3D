@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:18:50 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/06 23:23:16 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/25 10:17:00 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define EMLX -6
 # define ETEXTURE -7
 
-# define BUFSIZE 1024
+# define BUFSIZE 1025
 
 size_t		ft_strlen(const char *str);
 int			stoi(const char *str);

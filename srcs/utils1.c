@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 13:49:23 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/05/08 18:53:17 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/25 10:17:28 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static ssize_t	readnext(const int fd, char *buf, char **line, t_data *data)
 {
 	ssize_t	res;
 
-	if ((res = read(fd, buf, BUFSIZE)) < 0)
+	if ((res = read(fd, buf, BUFSIZE - 1)) < 0)
 	{
 		free(*line);
 		ft_error(errno, data);
@@ -34,7 +34,7 @@ ssize_t			gnl(const int fd, char **line, t_data *data)
 	static ssize_t	nb_b = 0;
 	size_t			i;
 
-	if ((!nb_b && (nb_b = read(fd, buf, BUFSIZE)) < 0))
+	if ((!nb_b && (nb_b = read(fd, buf, BUFSIZE - 1)) < 0))
 		ft_error(errno, data);
 	(*line) = maybemalloc(sizeof(char), data);
 	(*line)[0] = 0;

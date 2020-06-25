@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 18:06:20 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/24 10:24:26 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/25 10:31:21 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define MOVSPD 0.05
 # define SPRINT 2
 # define ROTSPD 0.05
+# define COLISIZE 0.1
 
 int key_press(int key, t_mlx *mlx);
 int key_release(int key, t_mlx *mlx);
