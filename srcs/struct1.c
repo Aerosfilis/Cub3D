@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:55:26 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/24 10:48:05 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/27 17:26:27 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void			free_mlx(t_mlx *mlx)
 		mlx_destroy_window(mlx->ptr, mlx->win);
 	if (mlx->ptr)
 		free(mlx->ptr);
+	if (mlx->wdist)
+		free(mlx->wdist);
 	mlx_null(mlx);
 }
 

@@ -17,7 +17,7 @@ OBJ		=	$(addprefix objs/, $(SRC:.c=.o))
 DEP		=	$(OBJ:%.o=%.d)
 
 CC		=	gcc
-CFLAGS	=	-Wall -Werror -Wextra -Isrcs -O3
+CFLAGS	=	-Wall -Werror -Wextra -Isrcs
 
 ############################ OS SPECIFIC FLAGS #################################
 
