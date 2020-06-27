@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 19:08:25 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/27 17:05:20 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/27 18:11:09 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,13 @@ unsigned int	get_pixel(t_vert_render rdr, t_img *tex, t_wall wall,
 	int		rgb[3];
 
 	wall_h1 = wall_h(1, rdr, &data->mlx, data);
-	pixel = (int)((!wall.side ? wall.x - floor(wall.x) : wall.y -
-			floor(wall.y)) * tex->x) * tex->bpp / 8 + (int)(((double)rdr.y -
+	if (wall.side)
+		pixel = (int)((wall.x > data->mlx.x ? wall.y - floor(wall.y) :
+				floor(wall.y) - wall.y + 1) * tex->x);
+	else
+		pixel = (int)((wall.y < data->mlx.y ? wall.x - floor(wall.x) :
+				floor(wall.x) - wall.x + 1) * tex->x);
+	pixel = pixel * tex->bpp / 8 + (int)(((double)rdr.y -
 			(double)data->res.y / 2 + wall_h1) /
 			(wall_h(0, rdr, &data->mlx, data) + wall_h1) * tex->y) * tex->sl;
 	rgb[0] = (unsigned char)tex->addr[tex->endian != data->mlx.scn.endian ?
