@@ -6,19 +6,20 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 22:42:11 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/25 10:55:53 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/27 13:53:49 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/types.h>
 #include <limits.h>
 #include <math.h>
+#include "mlx.h"
 #include "event.h"
 #include "render.h"
 #include "struct.h"
 
 #include <stdio.h>
-int			key_press(int key, t_mlx *mlx)
+int				key_press(int key, t_mlx *mlx)
 {	
 	printf("keypress: %d\n", key);
 	if (key >= USHRT_MAX || key < 0)
@@ -28,10 +29,12 @@ int			key_press(int key, t_mlx *mlx)
 	mlx->kpr[KW] += (key == KS && mlx->kpr[KW] == 1);
 	mlx->kpr[KD] += (key == KA && mlx->kpr[KD] == 1);
 	mlx->kpr[KA] += (key == KD && mlx->kpr[KA] == 1);
+	mlx->kpr[AL] += (key == AR && mlx->kpr[AL] == 1);
+	mlx->kpr[AR] += (key == AL && mlx->kpr[AR] == 1);
 	return (0);
 }
 
-int			key_release(int key, t_mlx *mlx)
+int				key_release(int key, t_mlx *mlx)
 {
 	if (key >= USHRT_MAX || key < 0)
 		return (0);
@@ -40,37 +43,42 @@ int			key_release(int key, t_mlx *mlx)
 	mlx->kpr[KW] -= (key == KS && mlx->kpr[KW] == 2);
 	mlx->kpr[KD] -= (key == KA && mlx->kpr[KD] == 2);
 	mlx->kpr[KA] -= (key == KD && mlx->kpr[KA] == 2);
+	mlx->kpr[AL] -= (key == AR && mlx->kpr[AL] == 2);
+	mlx->kpr[AR] -= (key == AL && mlx->kpr[AR] == 2);
 	return (0);
 }
 
-void		update_pos(t_mlx *mlx, t_data *data)
+static double	wallcolision(int axis, t_mlx *mlx, t_data *data)
+{
+	if (mlx->x > COLISIZE && mlx->x + COLISIZE < (double)data->smap.x
+		&& mlx->y > COLISIZE && mlx->y + COLISIZE < (double)data->smap.y)
+	{
+		if (data->map[(int)(mlx->x - COLISIZE * axis)]
+				[(int)(mlx->y - COLISIZE * (!axis))] == MAPWALL)
+			return (axis ? floor(mlx->x - COLISIZE) + COLISIZE + 1
+					: floor(mlx->y - COLISIZE) + COLISIZE + 1);
+		if (data->map[(int)(mlx->x + COLISIZE * axis)]
+				[(int)(mlx->y + COLISIZE * (!axis))] == MAPWALL)
+			return (axis ? floor(mlx->x + COLISIZE) - COLISIZE
+					: floor(mlx->y + COLISIZE) - COLISIZE);
+	}
+	return (axis ? mlx->x : mlx->y);
+}
+
+
+void			update_pos(t_mlx *mlx, t_data *data)
 {
 	mlx->x += (((mlx->kpr[KW] == 1) - (mlx->kpr[KS] == 1)) * MOVSPD *
 		mlx->ox + ((mlx->kpr[KA] == 1) - (mlx->kpr[KD] == 1)) * MOVSPD *
 		mlx->oy) * (mlx->kpr[SH] == 1 ? SPRINT : 1);
-	printf("%f %f\n", mlx->x, mlx->y);
-	if (mlx->x >= COLISIZE && mlx->x + COLISIZE < (double)data->smap.x
-		&& mlx->y >= 0.0 && mlx->y < (double)data->smap.y)
-	{
-		mlx->x = data->map[(int)(mlx->x - COLISIZE)][(int)mlx->y] == MAPWALL ?
-			floor(mlx->x - COLISIZE) + COLISIZE + 1 : mlx->x;
-		mlx->x = data->map[(int)(mlx->x + COLISIZE)][(int)mlx->y] == MAPWALL ?
-			floor(mlx->x + COLISIZE) - COLISIZE : mlx->x;
-	}
+	mlx->x = wallcolision(1, mlx, data);
 	mlx->y += (((mlx->kpr[KW] == 1) - (mlx->kpr[KS] == 1)) * MOVSPD *
 		mlx->oy + ((mlx->kpr[KD] == 1) - (mlx->kpr[KA] == 1)) * MOVSPD *
 		mlx->ox) * (mlx->kpr[SH] == 1 ? SPRINT : 1);
-	if (mlx->y >= COLISIZE && mlx->y + COLISIZE < (double)data->smap.y
-		&& mlx->x >= 0 && mlx->x < (double)data->smap.x)
-	{
-		mlx->y = data->map[(int)mlx->x][(int)(mlx->y - COLISIZE)] == MAPWALL ?
-			floor(mlx->y - COLISIZE) + COLISIZE + 1 : mlx->y;
-		mlx->y = data->map[(int)mlx->x][(int)(mlx->y + COLISIZE)] == MAPWALL ?
-			floor(mlx->y + COLISIZE) - COLISIZE : mlx->y;
-	}
+	mlx->y = wallcolision(0, mlx, data);
 }
 
-void		update_rot(t_mlx *mlx)
+void			update_rot(t_mlx *mlx)
 {
 	double		tmp;
 
@@ -88,10 +96,11 @@ void		update_rot(t_mlx *mlx)
 	}
 }
 
-int			loop(t_data *data)
+int				loop(t_data *data)
 {
 	update_pos(&data->mlx, data);
 	update_rot(&data->mlx);
 	cycle_angle(&data->mlx, data);
+	mlx_put_image_to_window(data->mlx.ptr, data->mlx.win, data->mlx.scn.ptr, 0, 0);
 	return (0);
 }

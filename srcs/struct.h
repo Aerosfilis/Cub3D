@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/24 10:41:41 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/27 10:13:06 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 #  define ES 65307
 #  define AL 65361
 #  define AR 65363
+#  define CT 65507
 # else
 #  define KW 13
 #  define KA 0
@@ -51,6 +52,7 @@
 #  define ES
 #  define AL
 #  define AR
+#  define CT
 # endif
 
 typedef struct		s_pos

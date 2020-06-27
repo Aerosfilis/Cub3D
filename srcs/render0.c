@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 19:08:25 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/24 10:42:11 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/27 13:49:13 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,81 @@
 #define ORIX 4
 #define ORIY 5
 
-t_img			*get_texture(t_wall wall, t_data *data)
+#define CROUCH 0.1
+
+#include <stdio.h>
+t_img			*get_texture(t_wall wall, t_mlx *mlx)
 {
-	long	res = wall.side + 2 *(wall.side ? (data->mlx.x > wall.x)
-			: (data->mlx.y < wall.y));
-	(void)data;
-	return (void*)res;
+	if (!wall.side && mlx->y >= wall.y)
+		return (&mlx->tex[TEX_NO]);
+	else if (wall.side && mlx->x <= wall.x)
+		return (&mlx->tex[TEX_EA]);
+	else if (!wall.side)
+		return (&mlx->tex[TEX_SO]);
+	else
+		return (&mlx->tex[TEX_WE]);
 }
 
-void			draw_vertical(t_vert_render rdr, t_img *tex, t_mlx *mlx,
+double			wall_h(int option, t_vert_render rdr, t_mlx *mlx, t_data *data)
+{
+	return ((0.25 + CROUCH * (option && mlx->kpr[CT] == 1)
+			- 0.1 * (!option && mlx->kpr[CT] == 1))
+			* (double)data->res.x / rdr.dist / tan(FOV / 360 * M_PI));
+}
+
+unsigned int	get_pixel(t_vert_render rdr, t_img *tex, t_wall wall,
+							t_data *data)
+{
+	int		pixel;
+	double	wall_h1;
+	int		rgb[3];
+
+	wall_h1 = wall_h(1, rdr, &data->mlx, data);
+	pixel = (int)((!wall.side ? wall.x - floor(wall.x) : wall.y -
+			floor(wall.y)) * tex->x) * tex->bpp / 8 + (int)(((double)rdr.y -
+			(double)data->res.y / 2 + wall_h1) /
+			(wall_h(0, rdr, &data->mlx, data) + wall_h1) * tex->y) * tex->sl;
+	rgb[0] = (unsigned char)tex->addr[tex->endian ? pixel + 3 * tex->bpp / 32 :
+		pixel + tex->bpp / 16] * tex->bpp / 32;
+	rgb[1] = (unsigned char)tex->addr[tex->endian ? pixel + tex->bpp / 16 :
+		pixel + tex->bpp / 32] * tex->bpp / 32;
+	rgb[2] = (unsigned char)tex->addr[tex->endian ? pixel + 3 * tex->bpp / 32 :
+		pixel] * tex->bpp / 32;
+	return (rgbtoi(rgb));
+}
+
+void			img_add_pixel(int rgb, t_vert_render rdr, t_mlx *mlx)
+{
+	int				i;
+	unsigned int	col;
+
+	i = 0;
+	col = mlx_get_color_value(mlx->ptr, rgb);
+	while (i * 8 < mlx->scn.bpp)
+	{
+		if (rdr.x < mlx->scn.x && rdr.y < mlx->scn.y)
+			mlx->scn.addr[(mlx->scn.endian ?
+					(rdr.x + 1) * mlx->scn.bpp / 8 - i - 1 :
+					rdr.x * mlx->scn.bpp / 8 + i)
+				+ rdr.y * mlx->scn.sl] = (col >> (i * 8)) & 255;
+		i++;
+	}
+}
+
+void			draw_vertical(t_vert_render rdr, t_wall wall, t_mlx *mlx,
 								t_data *data)
 {
+	t_img		*tex;
+
+	tex = get_texture(wall, mlx);
 	while (rdr.y < (int)data->res.y)
 	{
-		if ((double)rdr.y < (double)data->res.y / 2 - 0.25 * (double)data->res.x
-				/ rdr.dist / tan(FOV / 360 * M_PI))
-			mlx_pixel_put(mlx->ptr, mlx->win, rdr.x, rdr.y, data->col_ceil);
-		else if (rdr.y < ((double)data->res.y / 2 + 0.25 *
-				(double)data->res.x / rdr.dist / tan(FOV / 360 * M_PI)))
-			mlx_pixel_put(mlx->ptr, mlx->win, rdr.x, rdr.y,
-					(int)(long)tex * 85);
+		if (rdr.y < (double)data->res.y / 2 - wall_h(1, rdr, mlx, data))
+			img_add_pixel(data->col_ceil, rdr, mlx);
+		else if (rdr.y < (double)data->res.y / 2 + wall_h(0, rdr, mlx, data))
+			img_add_pixel(get_pixel(rdr, tex, wall, data), rdr, mlx);
 		else
-			mlx_pixel_put(mlx->ptr, mlx->win, rdr.x, rdr.y, data->col_floor);
+			img_add_pixel(data->col_floor, rdr, mlx);
 		rdr.y++;
 	}
 }
@@ -74,7 +127,7 @@ void			cycle_angle(t_mlx *mlx, t_data *data)
 		rdr.dist = wall.dist * rdr.cos;
 		mlx->wdist[rdr.x] = rdr.dist;
 		rdr.y = 0;
-		draw_vertical(rdr, get_texture(wall, data), mlx, data);
+		draw_vertical(rdr, wall, mlx, data);
 		rdr.x++;
 	}
 }

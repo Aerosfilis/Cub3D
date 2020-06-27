@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 18:06:20 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/25 10:31:21 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/27 13:51:16 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include <limits.h>
 # include "struct.h"
 
-# define MOVSPD 0.05
+# define MOVSPD 0.15
 # define SPRINT 2
-# define ROTSPD 0.05
+# define ROTSPD 0.1
 # define COLISIZE 0.1
 
 int key_press(int key, t_mlx *mlx);
