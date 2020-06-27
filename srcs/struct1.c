@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:55:26 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/27 17:26:27 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/06/27 17:55:24 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,13 @@ void			set_start(t_mlx *mlx, t_data *data)
 void			new_mlx(t_mlx *mlx, char *prog_name, t_data *data)
 {
 	size_t		i;
+	int			res[2];
 
 	if (!(mlx->ptr = mlx_init()))
 		ft_error(EMLX, data);
+	mlx_get_screen_size(mlx->ptr, &res[0], &res[1]);
+	data->res.x = (int)data->res.x > res[0] ? (size_t)res[0] : data->res.x;
+	data->res.y = (int)data->res.y > res[1] ? (size_t)res[1] : data->res.y;
 	if (!(mlx->win = mlx_new_window(mlx->ptr, data->res.x,
 					data->res.y, prog_name)))
 		ft_error(EMLX, data);
