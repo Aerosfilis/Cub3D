@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 21:36:12 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/24 10:48:22 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/08/15 20:11:50 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 # include "struct.h"
 
 # define FOV 66.0
+
+# ifndef SHADOW
+#  define SHADOW 0
+# endif
 
 typedef struct	s_wall
 {
@@ -35,7 +39,7 @@ typedef struct	s_vert_render
 	double		sin;
 }				t_vert_render;
 
-void			cycle_angle(t_mlx *mlx, t_data *data);
-t_wall			next_wall(double ox, double oy, t_mlx *mlx, t_data *data);
+void			cycle_angle(t_data *data);
+t_wall			next_wall(double ox, double oy, t_data *data);
 
 #endif

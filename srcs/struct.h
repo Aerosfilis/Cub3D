@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/27 10:13:06 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/08/15 20:10:52 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,40 +63,34 @@ typedef struct		s_pos
 
 typedef struct		s_img
 {
-	void			*ptr;
+	void			*restrict ptr;
 	int				x;
 	int				y;
-	char			*addr;
 	int				bpp;
 	int				sl;
 	int				endian;
+	char			*restrict addr;
 }					t_img;
-
-typedef struct		s_mlx
-{
-	void			*ptr;
-	void			*win;
-	unsigned char	kpr[USHRT_MAX];
-	double			x;
-	double			y;
-	double			z;
-	double			ox;
-	double			oy;
-	t_img			tex[NB_TEXTURE];
-	t_img			scn;
-	double			*wdist;
-}					t_mlx;
 
 typedef struct		s_data
 {
+	t_img			tex[NB_TEXTURE];
+	t_img			scn;
 	t_pos			res;
 	t_pos			smap;
-	char			**map;
-	char			*path_tex[NB_TEXTURE];
+	double			*restrict wdist;
+	double			x;
+	double			y;
+	double			ox;
+	double			oy;
+	unsigned char	kpr[USHRT_MAX];
+	char			*restrict path_tex[NB_TEXTURE];
+	char			*err_msg;
+	char			**restrict map;
+	void			*restrict ptr;
+	void			*restrict win;
 	int				col_ceil;
 	int				col_floor;
-	char			*err_msg;
-	t_mlx			mlx;
 	int				mapfd;
 }					t_data;
 
@@ -105,13 +99,13 @@ void				free_datamap(t_data *data);
 void				free_data(t_data *data);
 void				set_map(t_data *data);
 
-void				mlx_null(t_mlx *mlx);
-void				new_mlx(t_mlx *mlx, char *prog_name, t_data *data);
-void				free_mlx(t_mlx *mlx);
+void				mlx_null(t_data *data);
+void				new_mlx(char *prog_name, t_data *data);
+void				free_mlx(t_data *data);
 void				new_pos(t_pos *pos, size_t x, size_t y);
 
 void				img_null(t_img *tex);
-void				free_img(t_img *tex, t_mlx *mlx);
+void				free_img(t_img *tex, t_data *data);
 void				new_tex(int i, t_img *tex, t_data *data);
 void				new_img(t_img *scn, int x, int y, t_data *data);
 

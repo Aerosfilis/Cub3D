@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/25 15:34:31 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/27 17:22:43 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/08/15 20:12:46 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 #include "struct.h"
 #include "utils.h"
 #include "mlx.h"
+
+#ifndef SHADOW
+# define SHADOW 0
+#endif
 
 static int	check_arg(int ac, char **av, t_data *data)
 {
@@ -33,6 +37,7 @@ static int	check_arg(int ac, char **av, t_data *data)
 	return (ac == 3);
 }
 
+#include <stdio.h>
 int			main(int ac, char **av)
 {
 	t_data	data;
@@ -40,11 +45,11 @@ int			main(int ac, char **av)
 	new_data(&data, av[0]);
 	check_arg(ac, av, &data);
 	parse(av[1], &data);
-	new_mlx(&(data.mlx), av[0], &data);
-	mlx_hook(data.mlx.win, 2, 1L<<0, key_press, &data);
-	mlx_hook(data.mlx.win, 3, 1L<<1, key_release, &data);
-	mlx_hook(data.mlx.win, 17, 1L<<17, quit_cubed, &data);
-	mlx_loop_hook(data.mlx.ptr, loop, &data);
-	mlx_loop(data.mlx.ptr);
+	new_mlx(av[0], &data);
+	mlx_hook(data.win, 2, 1L << 0, key_press, &data);
+	mlx_hook(data.win, 3, 1L << 1, key_release, &data);
+	mlx_hook(data.win, 17, 1L << 17, quit_cubed, &data);
+	mlx_loop_hook(data.ptr, loop, &data);
+	mlx_loop(data.ptr);
 	ft_error(EMLX, &data);
 }

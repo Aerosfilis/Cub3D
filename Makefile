@@ -1,4 +1,16 @@
-NAME	=	Cub3D
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/07/02 17:15:05 by cbugnon           #+#    #+#              #
+#    Updated: 2020/08/15 16:17:47 by cbugnon          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME	=	cub3D
 
 SRC		=	cub3d.c \
 			event0.c \
@@ -17,9 +29,11 @@ OBJ		=	$(addprefix objs/, $(SRC:.c=.o))
 DEP		=	$(OBJ:%.o=%.d)
 
 CC		=	gcc
-CFLAGS	=	-Wall -Werror -Wextra -Isrcs
+OPTI	=	O2
+CFLAGS	=	-Wall -Werror -Wextra -Isrcs -$(OPTI)
 
-############################ OS SPECIFIC FLAGS #################################
+
+################################### OS FLAGS ###################################
 
 OS		=	$(shell uname -s)
 ifeq ($(OS), Linux)
@@ -30,18 +44,33 @@ else
 	GFLAGS	=	-L$(MLXDIR) -lmlx -I$(MLXDIR) -framework OpenGL -framework AppKit -lm
 endif
 
-############################## MAIN OPTIONS ####################################
+
+################################# EXTRA  FLAGS #################################
+
+DEBUGLOOP 	=	0
+ifneq ($(DEBUGLOOP), 0)
+	CFLAGS += -DDEBUGLOOP=$(DEBUGLOOP)
+endif
+
+
+################################# MAIN OPTIONS #################################
 
 all:		$(NAME)
 
--include $(DEP)
 objs/%.o:	srcs/%.c
 			@mkdir -p objs
 			$(CC) $(CFLAGS) -MMD -Isrcs -c $< -o $@ $(GFLAGS)
 
 $(NAME):	$(OBJ)
 			@make -C ./$(MLXDIR) --no-print-directory
+			$(CC) $(CFLAGS) -c srcs/render0.c -o objs/render0.o $(GFLAGS)
 			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(GFLAGS)
+
+bonus:		$(OBJ)
+			@make -C ./$(MLXDIR) --no-print-directory
+			$(CC) $(CFLAGS) -DSHADOW=1 -c srcs/render0.c -o objs/render0.o $(GFLAGS)
+			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(GFLAGS)
+
 clean:
 			rm -rf objs
 
@@ -50,7 +79,8 @@ fclean:		clean
 
 re:			fclean all
 
-############################ EXTRA OPTIONS #####################################
+
+################################# EXTRA OPTIONS ################################
 
 os:
 			@echo "$(OS)"
@@ -63,3 +93,4 @@ test:
 			$(CC) $(CFLAGS) -o mlx_test mlx_test.c $(GFLAGS)
 
 .PHONY:		all clean fclean re $(NAME)
+-include $(DEP)

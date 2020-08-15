@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 22:42:11 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/27 17:23:35 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/08/15 20:18:28 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,91 +20,84 @@
 
 #include <stdio.h>
 int				key_press(int key, t_data *data)
-{	
-	t_mlx	*mlx;
-
+{
 	printf("keypress: %d\n", key);
-	mlx = &data->mlx;
 	if (key == ES)
 		quit_cubed(data);
 	if (key >= USHRT_MAX || key < 0)
 		return (0);
-	mlx->kpr[key] = 1;
-	mlx->kpr[KS] += (key == KW && mlx->kpr[KS] == 1);
-	mlx->kpr[KW] += (key == KS && mlx->kpr[KW] == 1);
-	mlx->kpr[KD] += (key == KA && mlx->kpr[KD] == 1);
-	mlx->kpr[KA] += (key == KD && mlx->kpr[KA] == 1);
-	mlx->kpr[AL] += (key == AR && mlx->kpr[AL] == 1);
-	mlx->kpr[AR] += (key == AL && mlx->kpr[AR] == 1);
+	data->kpr[key] = 1;
+	data->kpr[KS] += (key == KW && data->kpr[KS] == 1);
+	data->kpr[KW] += (key == KS && data->kpr[KW] == 1);
+	data->kpr[KD] += (key == KA && data->kpr[KD] == 1);
+	data->kpr[KA] += (key == KD && data->kpr[KA] == 1);
+	data->kpr[AL] += (key == AR && data->kpr[AL] == 1);
+	data->kpr[AR] += (key == AL && data->kpr[AR] == 1);
 	return (0);
 }
 
 int				key_release(int key, t_data *data)
 {
-	t_mlx	*mlx;
-
-	mlx = &data->mlx;
 	if (key >= USHRT_MAX || key < 0)
 		return (0);
-	mlx->kpr[key] = 0;
-	mlx->kpr[KS] -= (key == KW && mlx->kpr[KS] == 2);
-	mlx->kpr[KW] -= (key == KS && mlx->kpr[KW] == 2);
-	mlx->kpr[KD] -= (key == KA && mlx->kpr[KD] == 2);
-	mlx->kpr[KA] -= (key == KD && mlx->kpr[KA] == 2);
-	mlx->kpr[AL] -= (key == AR && mlx->kpr[AL] == 2);
-	mlx->kpr[AR] -= (key == AL && mlx->kpr[AR] == 2);
+	data->kpr[key] = 0;
+	data->kpr[KS] -= (key == KW && data->kpr[KS] == 2);
+	data->kpr[KW] -= (key == KS && data->kpr[KW] == 2);
+	data->kpr[KD] -= (key == KA && data->kpr[KD] == 2);
+	data->kpr[KA] -= (key == KD && data->kpr[KA] == 2);
+	data->kpr[AL] -= (key == AR && data->kpr[AL] == 2);
+	data->kpr[AR] -= (key == AL && data->kpr[AR] == 2);
 	return (0);
 }
 
-static double	wallcolision(int axis, t_mlx *mlx, t_data *data)
+static double	wallcolision(int axis, t_data *data)
 {
-	if (mlx->x > COLISIZE && mlx->x + COLISIZE < (double)data->smap.x
-		&& mlx->y > COLISIZE && mlx->y + COLISIZE < (double)data->smap.y)
+	if (data->x > COLISIZE && data->x + COLISIZE < (double)data->smap.x
+		&& data->y > COLISIZE && data->y + COLISIZE < (double)data->smap.y)
 	{
-		if (data->map[(int)(mlx->x - COLISIZE * axis)]
-				[(int)(mlx->y - COLISIZE * (!axis))] == MAPWALL)
-			return (axis ? floor(mlx->x - COLISIZE) + COLISIZE + 1
-					: floor(mlx->y - COLISIZE) + COLISIZE + 1);
-		if (data->map[(int)(mlx->x + COLISIZE * axis)]
-				[(int)(mlx->y + COLISIZE * (!axis))] == MAPWALL)
-			return (axis ? floor(mlx->x + COLISIZE) - COLISIZE
-					: floor(mlx->y + COLISIZE) - COLISIZE);
+		if (data->map[(int)(data->x - COLISIZE * axis)]
+				[(int)(data->y - COLISIZE * (!axis))] == MAPWALL)
+			return (axis ? floor(data->x - COLISIZE) + COLISIZE + 1 :
+					floor(data->y - COLISIZE) + COLISIZE + 1);
+		if (data->map[(int)(data->x + COLISIZE * axis)]
+				[(int)(data->y + COLISIZE * (!axis))] == MAPWALL)
+			return (axis ? floor(data->x + COLISIZE) - COLISIZE :
+					floor(data->y + COLISIZE) - COLISIZE);
 	}
-	return (axis ? mlx->x : mlx->y);
+	return (axis ? data->x : data->y);
 }
 
-
-void			update_pos(t_mlx *mlx, t_data *data)
+static void			update_pos(t_data *data)
 {
-	mlx->x += (((mlx->kpr[KW] == 1) - (mlx->kpr[KS] == 1)) * MOVSPD *
-		(1 - 0.3 * (mlx->kpr[KA] == 1 || mlx->kpr[KD] == 1))*
-		mlx->ox + ((mlx->kpr[KA] == 1) - (mlx->kpr[KD] == 1)) * MOVSPD *
-		(1 - 0.3 * (mlx->kpr[KW] == 1 || mlx->kpr[KS] == 1))*
-		mlx->oy) * (mlx->kpr[SH] == 1 ? SPRINT : 1);
-	mlx->x = wallcolision(1, mlx, data);
-	mlx->y += (((mlx->kpr[KW] == 1) - (mlx->kpr[KS] == 1)) * MOVSPD *
-		(1 - 0.3 * (mlx->kpr[KD] == 1 || mlx->kpr[KA] == 1))*
-		mlx->oy + ((mlx->kpr[KD] == 1) - (mlx->kpr[KA] == 1)) * MOVSPD *
-		(1 - 0.3 * (mlx->kpr[KW] == 1 || mlx->kpr[KS] == 1))*
-		mlx->ox) * (mlx->kpr[SH] == 1 ? SPRINT : 1);
-	mlx->y = wallcolision(0, mlx, data);
+	data->x += (((data->kpr[KW] == 1) - (data->kpr[KS] == 1)) * MOVSPD *
+		(1 - 0.3 * (data->kpr[KA] == 1 || data->kpr[KD] == 1)) *
+		data->ox + ((data->kpr[KA] == 1) - (data->kpr[KD] == 1)) * MOVSPD *
+		(1 - 0.3 * (data->kpr[KW] == 1 || data->kpr[KS] == 1)) *
+		data->oy) * (data->kpr[SH] == 1 ? SPRINT : 1);
+	data->x = wallcolision(1, data);
+	data->y += (((data->kpr[KW] == 1) - (data->kpr[KS] == 1)) * MOVSPD *
+		(1 - 0.3 * (data->kpr[KD] == 1 || data->kpr[KA] == 1)) *
+		data->oy + ((data->kpr[KD] == 1) - (data->kpr[KA] == 1)) * MOVSPD *
+		(1 - 0.3 * (data->kpr[KW] == 1 || data->kpr[KS] == 1)) *
+		data->ox) * (data->kpr[SH] == 1 ? SPRINT : 1);
+	data->y = wallcolision(0, data);
 }
 
-void			update_rot(t_mlx *mlx)
+static void			update_rot(t_data *data)
 {
 	double		tmp;
 
-	if (mlx->kpr[AL] == 1)
+	if (data->kpr[AL] == 1)
 	{
-		tmp = mlx->ox * cos(-ROTSPD) - mlx->oy * sin(-ROTSPD);
-		mlx->oy = mlx->ox * sin(-ROTSPD) + mlx->oy * cos(-ROTSPD);
-		mlx->ox = tmp;
+		tmp = data->ox * cos(-ROTSPD) - data->oy * sin(-ROTSPD);
+		data->oy = data->ox * sin(-ROTSPD) + data->oy * cos(-ROTSPD);
+		data->ox = tmp;
 	}
-	else if (mlx->kpr[AR] == 1)
+	else if (data->kpr[AR] == 1)
 	{
-		tmp = mlx->ox * cos(ROTSPD) - mlx->oy * sin(ROTSPD);
-		mlx->oy = mlx->ox * sin(ROTSPD) + mlx->oy * cos(ROTSPD);
-		mlx->ox = tmp;
+		tmp = data->ox * cos(ROTSPD) - data->oy * sin(ROTSPD);
+		data->oy = data->ox * sin(ROTSPD) + data->oy * cos(ROTSPD);
+		data->ox = tmp;
 	}
 }
 
@@ -117,9 +110,14 @@ int				quit_cubed(t_data *data)
 
 int				loop(t_data *data)
 {
-	update_pos(&data->mlx, data);
-	update_rot(&data->mlx);
-	cycle_angle(&data->mlx, data);
-	mlx_put_image_to_window(data->mlx.ptr, data->mlx.win, data->mlx.scn.ptr, 0, 0);
+	static int	i = 1;
+
+	update_pos(data);
+	update_rot(data);
+	cycle_angle(data);
+	mlx_put_image_to_window(data->ptr, data->win,
+			data->scn.ptr, 0, 0);
+	if (DEBUGLOOP > 0 && ++i > DEBUGLOOP)
+		quit_cubed(data);
 	return (0);
 }
