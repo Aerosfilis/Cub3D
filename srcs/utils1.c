@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 13:49:23 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/25 10:17:28 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/08/28 09:22:12 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int				get_function(const char *l)
 		return (3);
 }
 
-int				rgbtoi(int rgb[3])
+inline int		rgbtoi(int rgb[3])
 {
 	int	r;
 	int	g;

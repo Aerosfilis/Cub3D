@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 22:42:11 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/08/15 20:18:28 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/08/28 09:40:35 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static double	wallcolision(int axis, t_data *data)
 	return (axis ? data->x : data->y);
 }
 
-static void			update_pos(t_data *data)
+static void		update_pos(t_data *data)
 {
 	data->x += (((data->kpr[KW] == 1) - (data->kpr[KS] == 1)) * MOVSPD *
 		(1 - 0.3 * (data->kpr[KA] == 1 || data->kpr[KD] == 1)) *
@@ -83,7 +83,7 @@ static void			update_pos(t_data *data)
 	data->y = wallcolision(0, data);
 }
 
-static void			update_rot(t_data *data)
+static void		update_rot(t_data *data)
 {
 	double		tmp;
 

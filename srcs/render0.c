@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 19:08:25 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/08/15 20:25:17 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/08/28 09:25:03 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,31 +75,78 @@ unsigned int	get_pixel(t_vert_render rdr, t_img *restrict tex, t_wall wall,
 	return (rgbtoi(rgb));
 }
 
+void			depth_32(double sha, unsigned int col, t_vert_render rdr,
+							t_data *data)
+{
+	static int	endian = -1;
+	int			i;
+
+	if (endian < 0)
+		endian = data->scn.endian;
+	if (endian)
+	{
+		i = (rdr.x + 1) * 4 - 2 + rdr.y * data->scn.sl;
+		data->scn.addr[i] = ((col >> 8) & 255) / sha;
+		data->scn.addr[i - 1] = ((col >> 16) & 255) / sha;
+		data->scn.addr[i - 2] = ((col >> 24) & 255) / sha;
+	}
+	else
+	{
+		i = rdr.x * 4 + rdr.y * data->scn.sl;
+		data->scn.addr[i] = (col & 255) / sha;
+		data->scn.addr[i + 1] = ((col >> 8) & 255) / sha;
+		data->scn.addr[i + 2] = ((col >> 16) & 255) / sha;
+	}
+}
+
+void			depth_24(double sha, unsigned int col, t_vert_render rdr,
+							t_data *data)
+{
+	static int	endian = -1;
+	int			i;
+
+	if (endian < 0)
+		endian = data->scn.endian;
+	if (data->scn.endian)
+	{
+		i = (rdr.x + 1) * 3 - 1 + rdr.y * data->scn.sl;
+		data->scn.addr[i] = (col & 255) / sha;
+		data->scn.addr[i - 1] = ((col >> 8) & 255) / sha;
+		data->scn.addr[i - 2] = ((col >> 16) & 255) / sha;
+	}
+	else
+	{
+		i = rdr.x * 3 + rdr.y * data->scn.sl;
+		data->scn.addr[i] = (col & 255) / sha;
+		data->scn.addr[i + 1] = ((col >> 8) & 255) / sha;
+		data->scn.addr[i + 2] = ((col >> 16) & 255) / sha;
+	}
+}
+
 void			img_add_pixel(int option, int rgb, t_vert_render rdr,
 								t_data *data)
 {
-	int				i;
 	unsigned int	col;
-	double			tmp;
+	double			sha;
 
-	i = 0;
+	if (rdr.x >= data->scn.x || rdr.y >= data->scn.y)
+		return ;
 	col = mlx_get_color_value(data->ptr, rgb);
-	tmp = ((double)data->scn.x / 2 / ((option == 0) * ((double)data->scn.y / 2 -
-		(double)rdr.y) + (option == 2) * ((double)rdr.y - (double)data->scn.y /
-		2) + (option == 1)) / tan(FOV * M_PI / 360) / rdr.cos * (option != 1) +
-		(rdr.dist > 2 ? rdr.dist - 1 : 1) * (option == 1)) * (SHADOW == 1)
-		+ (SHADOW == 0);
-	while (i * 8 < data->scn.bpp)
+	sha = 1;
+	if (SHADOW)
 	{
-		if (rdr.x < data->scn.x && rdr.y < data->scn.y)
-		{
-			data->scn.addr[(data->scn.endian ?
-					(rdr.x + 1) * data->scn.bpp / 8 - i - 1 :
-					rdr.x * data->scn.bpp / 8 + i)
-				+ rdr.y * data->scn.sl] = ((col >> (i * 8)) & 255) / tmp;
-		}
-		i++;
+		sha = (double)data->scn.x / 2 / tan(FOV * M_PI / 360);
+		if (option == 0)
+			sha /= ((double)data->scn.y / 2 - (double)rdr.y) * rdr.cos;
+		else if (option == 2)
+			sha /= ((double)rdr.y - (double)data->scn.y / 2) * rdr.cos;
+		else if (option == 1)
+			sha += rdr.dist > 2 ? rdr.dist - 1 : 1;
 	}
+	if (data->scn.bpp == 32)
+		depth_32(sha, col, rdr, data);
+	else if (data->scn.bpp == 24)
+		depth_24(sha, col, rdr, data);
 }
 
 void			draw_vertical(t_vert_render rdr, t_wall wall, t_data *data)
@@ -145,7 +192,7 @@ void			cycle_angle(t_data *data)
 	}
 }
 
-static t_wall	check_hit(double fdr[6], t_pos idr[2], t_data *data)
+t_wall			check_hit(double fdr[6], t_pos idr[2], t_data *data)
 {
 	t_wall	res;
 

@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/08/15 20:10:52 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/08/28 09:32:12 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,35 +63,35 @@ typedef struct		s_pos
 
 typedef struct		s_img
 {
-	void			*restrict ptr;
+	void *restrict	ptr;
 	int				x;
 	int				y;
 	int				bpp;
 	int				sl;
 	int				endian;
-	char			*restrict addr;
+	char *restrict	addr;
 }					t_img;
 
 typedef struct		s_data
 {
-	t_img			tex[NB_TEXTURE];
-	t_img			scn;
-	t_pos			res;
-	t_pos			smap;
-	double			*restrict wdist;
-	double			x;
-	double			y;
-	double			ox;
-	double			oy;
-	unsigned char	kpr[USHRT_MAX];
-	char			*restrict path_tex[NB_TEXTURE];
-	char			*err_msg;
-	char			**restrict map;
-	void			*restrict ptr;
-	void			*restrict win;
-	int				col_ceil;
-	int				col_floor;
-	int				mapfd;
+	t_img				tex[NB_TEXTURE];
+	t_img				scn;
+	t_pos				res;
+	t_pos				smap;
+	double *restrict	wdist;
+	double				x;
+	double				y;
+	double				ox;
+	double				oy;
+	unsigned char		kpr[USHRT_MAX];
+	char *restrict		path_tex[NB_TEXTURE];
+	char				*err_msg;
+	char **restrict		map;
+	void *restrict		ptr;
+	void *restrict		win;
+	int					col_ceil;
+	int					col_floor;
+	int					mapfd;
 }					t_data;
 
 void				new_data(t_data *data, char *prog_name);

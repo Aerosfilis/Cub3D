@@ -6,7 +6,7 @@
 #    By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 17:15:05 by cbugnon           #+#    #+#              #
-#    Updated: 2020/08/15 16:17:47 by cbugnon          ###   ########.fr        #
+#    Updated: 2020/08/28 05:32:48 by cbugnon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ DEP		=	$(OBJ:%.o=%.d)
 
 CC		=	gcc
 OPTI	=	O2
-CFLAGS	=	-Wall -Werror -Wextra -Isrcs -$(OPTI)
+CFLAGS	=	-Wall -Werror -Wextra -flto -Isrcs -$(OPTI)
 
 
 ################################### OS FLAGS ###################################
@@ -49,7 +49,7 @@ endif
 
 DEBUGLOOP 	=	0
 ifneq ($(DEBUGLOOP), 0)
-	CFLAGS += -DDEBUGLOOP=$(DEBUGLOOP)
+	CFLAGS += -DDEBUGLOOP=$(DEBUGLOOP) -g
 endif
 
 
@@ -69,7 +69,7 @@ $(NAME):	$(OBJ)
 bonus:		$(OBJ)
 			@make -C ./$(MLXDIR) --no-print-directory
 			$(CC) $(CFLAGS) -DSHADOW=1 -c srcs/render0.c -o objs/render0.o $(GFLAGS)
-			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(GFLAGS)
+			$(CC) $(CFLAGS) -fuse-linker-plugin -o $(NAME) $(OBJ) $(GFLAGS)
 
 clean:
 			rm -rf objs
@@ -89,7 +89,7 @@ cflags:
 			@echo "$(CFLAGS)"
 
 test:
-			make -C ./$(MLXDIR) --no-print-directory
+			@make -C ./$(MLXDIR) --no-print-directory
 			$(CC) $(CFLAGS) -o mlx_test mlx_test.c $(GFLAGS)
 
 .PHONY:		all clean fclean re $(NAME)
