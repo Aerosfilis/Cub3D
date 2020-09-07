@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/25 18:22:55 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/05 22:29:55 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/07 13:21:25 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,19 @@
 static size_t	find_checkstart(char *line, t_data *data)
 {
 	size_t	x;
-	int		enclosed;
+	char	cell;
 
-	x = data->smap.x - 2;
-	enclosed = 1;
-	while (--x > 0 && data->map[x][0] == MAPEMPTY)
-		enclosed = enclosed && (data->map[x][0] == MAPWALL ||
-			data->map[x][0] == MAPEMPTY);
-	if (!enclosed)
+	x = data->smap.x - 1;
+	cell = data->map[x][0];
+	while (x > 0 && cell == MAPEMPTY)
 	{
-		free(line);
-		ft_error(EINVMAP, data);
+		if (cell != MAPWALL && cell!= MAPEMPTY)
+		{
+			free(line);
+			ft_error(EINVMAP, data);
+		}
+		cell = data->map[x][0];
+		x--;
 	}
 	return (x);
 }
@@ -46,6 +48,7 @@ static void		check_endline(char *line, size_t x, size_t y, t_data *data)
 	}
 }
 
+#include <stdio.h>
 void			check_enclosed(char *line, t_data *data)
 {
 	size_t	x;
@@ -53,17 +56,20 @@ void			check_enclosed(char *line, t_data *data)
 
 	x = find_checkstart(line, data);
 	y = 0;
+	printf("%ld\n", x);
 	while (y < data->smap.y - 1)
 	{
 		while (x < data->smap.x - 1 && data->map[x][y] == MAPWALL)
 			x++;
 		check_endline(line, x, y, data);
-		x -= x > 0 ? 1 : 0;
-		while (x > 0 && data->map[x][y] == MAPWALL && data->map[x][y + 1]
-				== MAPEMPTY)
+		x -= data->map[x][y] != MAPWALL ? 1 : 0;
+		while (x > 0 && data->map[x][y] == MAPWALL
+				&& data->map[x][y + 1] == MAPEMPTY)
 			x--;
+		printf("%ld %ld\n", x, y);
 		if (data->map[x][y + 1] != MAPWALL)
 		{
+			printf("DERP!\n");
 			free(line);
 			ft_error(EINVMAP, data);
 		}
