@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:55:26 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/08/15 20:27:07 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/08 10:06:30 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 void			mlx_null(t_data *data)
 {
-	size_t		i;
+	int		i;
 
 	data->ptr = NULL;
 	data->win = NULL;
@@ -31,10 +31,35 @@ void			mlx_null(t_data *data)
 	data->wdist = NULL;
 }
 
-void			set_start(t_data *data)
+static void		set_sprites(t_data *data)
 {
-	size_t		x;
-	size_t		y;
+	t_pos	pos;
+	int		i;
+
+	i = 0;
+	pos.y = 0;
+	data->sprites = maybemalloc(data->nb_sprites * sizeof(t_sprite), data);
+	while (pos.y < data->smap.y)
+	{
+		pos.x = 0;
+		while (pos.x < data->smap.x)
+		{
+			if (data->map[pos.x][pos.y] == MAPSPRITE)
+			{
+				data->sprites[i].x = (double)pos.x + 0.5;
+				data->sprites[i].y = (double)pos.y + 0.5;
+				i++;
+			}
+			pos.x++;
+		}
+		pos.y++;
+	}
+}
+
+static void		set_start(t_data *data)
+{
+	int		x;
+	int		y;
 
 	x = -1;
 	while (++x < data->smap.x)
@@ -58,18 +83,19 @@ void			set_start(t_data *data)
 
 void			new_mlx(char *prog_name, t_data *data)
 {
-	size_t		i;
-	int			res[2];
+	int		i;
+	int		res[2];
 
 	if (!(data->ptr = mlx_init()))
 		ft_error(EMLX, data);
 	mlx_get_screen_size(data->ptr, &res[0], &res[1]);
-	data->res.x = (int)data->res.x > res[0] ? (size_t)res[0] : data->res.x;
-	data->res.y = (int)data->res.y > res[1] ? (size_t)res[1] : data->res.y;
+	data->res.x = data->res.x > res[0] ? res[0] : data->res.x;
+	data->res.y = data->res.y > res[1] ? res[1] : data->res.y;
 	if (!(data->win = mlx_new_window(data->ptr, data->res.x,
 					data->res.y, prog_name)))
 		ft_error(EMLX, data);
 	set_start(data);
+	set_sprites(data);
 	i = -1;
 	while (++i < NB_TEXTURE)
 		new_tex(i, &(data->tex[i]), data);
@@ -92,10 +118,4 @@ void			free_mlx(t_data *data)
 	if (data->wdist)
 		free(data->wdist);
 	mlx_null(data);
-}
-
-void			new_pos(t_pos *pos, size_t x, size_t y)
-{
-	pos->x = x;
-	pos->y = y;
 }

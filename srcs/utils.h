@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:18:50 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/25 10:17:00 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/08 09:54:12 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@
 
 # define BUFSIZE 1025
 
-size_t		ft_strlen(const char *str);
-int			stoi(const char *str);
-void		*maybemalloc(size_t size, t_data *data);
-ssize_t		str_append(char **s1, const char *s2, ssize_t len, t_data *data);
-void		ft_error(int err, t_data *data);
+int		ft_strlen(const char *str);
+int		stoi(const char *str);
+void	*maybemalloc(int size, t_data *data);
+int		str_append(char **s1, const char *s2, int len, t_data *data);
+void	ft_error(int err, t_data *data);
 
-ssize_t		gnl(const int fd, char **line, t_data *data);
-int			get_function(const char *l);
-int			rgbtoi(int rgb[3]);
+int		gnl(const int fd, char **line, t_data *data);
+int		get_function(const char *l);
+int		rgbtoi(int rgb[3]);
 
 #endif

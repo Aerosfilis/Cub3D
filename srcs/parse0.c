@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 15:44:44 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/06 23:34:32 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/08 10:08:16 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void			set_data_res(char *line, t_data *data)
 	i = 2;
 	while (line[i] == ' ')
 		i++;
-	data->res.x = (stoi(line + i) >= 0) ? (size_t)stoi(line + i) : 0;
+	data->res.x = (stoi(line + i) >= 0) ? stoi(line + i) : 0;
 	while (line[i] >= '0' && line[i] <= '9')
 		i++;
 	while (line[i] == ' ')
@@ -86,8 +86,7 @@ void			set_data_res(char *line, t_data *data)
 		i++;
 	while (line[i] == ' ')
 		i++;
-	if (line[i] || data->res.x < 1 || data->res.y < 1 || data->res.x >
-			INT_MAX || data->res.y > INT_MAX)
+	if (line[i] || data->res.x < 1 || data->res.y < 1)
 	{
 		free(line);
 		ft_error(EINVSET, data);

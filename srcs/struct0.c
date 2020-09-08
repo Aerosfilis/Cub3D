@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:37:51 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/08/15 20:01:20 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/08 10:05:36 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void			new_data(t_data *data, char *prog_name)
 	if (!(data->map = malloc(sizeof(char *))))
 		ft_error(errno, data);
 	data->map[0] = 0;
+	data->sprites = NULL;
+	data->nb_sprites = 0;
 	mlx_null(data);
 }
 
@@ -60,7 +62,7 @@ void			set_map(t_data *data)
 
 void			free_datamap(t_data *data)
 {
-	size_t		i;
+	int		i;
 
 	if (!data->map)
 		return ;
@@ -98,5 +100,7 @@ void			free_data(t_data *data)
 	free_mlx(data);
 	if (data->mapfd > 0)
 		close(data->mapfd);
+	if (data->sprites)
+		free(data->sprites);
 	data->mapfd = 0;
 }

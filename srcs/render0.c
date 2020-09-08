@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 19:08:25 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/08/28 09:25:03 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/08 18:10:04 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_img			*get_texture(t_wall wall, t_data *data)
 double			wall_h(int option, t_vert_render rdr, t_data *data)
 {
 	return ((0.25 + CROUCH * (option && data->kpr[CT] == 1)
-			- 0.1 * (!option && data->kpr[CT] == 1))
+			- CROUCH * (!option && data->kpr[CT] == 1))
 			* (double)data->res.x / rdr.dist / tan(FOV / 360 * M_PI));
 }
 
@@ -71,7 +71,7 @@ unsigned int	get_pixel(t_vert_render rdr, t_img *restrict tex, t_wall wall,
 	rgb[1] = (unsigned char)tex->addr[tex->endian != data->scn.endian ?
 		pixel + tex->bpp / 16 : pixel + tex->bpp / 32] * tex->bpp / 32;
 	rgb[2] = (unsigned char)tex->addr[tex->endian != data->scn.endian ?
-		pixel + 3 * tex->bpp / 32 : pixel] * tex->bpp / 32;
+		pixel + tex->bpp / 32 : pixel] * tex->bpp / 32;
 	return (rgbtoi(rgb));
 }
 
@@ -233,4 +233,139 @@ t_wall			next_wall(double ox, double oy, t_data *data)
 	fdr[DISTY] = (oy < 0 ? data->y - idr[POS].y : 1 - data->y + idr[POS].y) *
 		fdr[DELTAY];
 	return (check_hit(fdr, idr, data));
+}
+
+static t_sprite	**retrieve_sprites(t_data *data)
+{
+	int				i;
+	int				j;
+	static t_sprite	**sprites;
+
+	i = 0;
+	j = 0;
+	sprites = maybemalloc((data->nb_sprites + 1) * sizeof(t_sprite *), data);
+	while (i < data->nb_sprites)
+	{
+		data->sprites[i].adj_x = (data->sprites[i].x - data->x) * data->ox
+			- (data->sprites[i].y - data->y) * -data->oy;
+		data->sprites[i].adj_y = (data->sprites[i].x - data->x) * -data->oy
+			+ (data->sprites[i].y - data->y) * data->ox;
+		if (data->sprites[i].adj_x > -1
+				&& data->sprites[i].adj_y > -data->sprites[i].adj_x - 1
+				&& data->sprites[i].adj_y < data->sprites[i].adj_x + 1)
+		{
+			sprites[j] = data->sprites + i;
+			j++;
+		}
+		i++;
+	}
+	sprites[j] = NULL;
+	return (sprites);
+}
+
+static void		sort_sprites(t_sprite **sprites)
+{
+	int			idx[3];
+	t_sprite	*tmp;
+
+	idx[0] = 0;
+	while (sprites[idx[0]])
+	{
+		idx[1] = 0;
+		idx[2] = 0;
+		while (sprites[idx[1]])
+		{
+			if (sprites[idx[2]]->adj_x < sprites[idx[1]]->adj_x)
+			{
+				tmp = sprites[idx[1]];
+				sprites[idx[1]] = sprites[idx[2]];
+				sprites[idx[2]] = tmp;
+				idx[2] = idx[1];
+			}
+			else
+				idx[2] = idx[1];
+			idx[1]++;
+		}
+		idx[0]++;
+	}
+}
+
+int				get_sprite_pixel(double tex_x, double tex_y,
+							t_data *data)
+{
+	t_img	*tex;
+	int		rgb[3];
+	int		pixel;
+
+	tex = data->tex + TEX_SPRITE;
+	pixel = (int)(tex->x * tex_x) * tex->bpp / 8 + (int)(tex->y * tex_y) * tex->sl;
+	rgb[0] = (unsigned char)tex->addr[tex->endian ?
+		 + 3 * tex->bpp / 32 : pixel + tex->bpp / 16];
+	rgb[1] = (unsigned char)tex->addr[tex->endian ?
+		pixel + tex->bpp / 16 : pixel + tex->bpp / 32];
+	rgb[2] = (unsigned char)tex->addr[tex->endian ?
+		pixel + tex->bpp / 32 : pixel];
+	return (rgbtoi(rgb));
+}
+
+void			draw_sprite_col(t_sprite *sprite, t_vert_render rdr,
+							double tex_x, t_data *data)
+{
+	int		start;
+	int		end;
+	int		col;
+
+	start = ((double)data->res.y - 1) / 2 - (0.25 + CROUCH * (data->kpr[CT] ==
+		1)) * (double)data->res.x / sprite->adj_x /tan(FOV / 360 * M_PI);
+	end = ((double)data->res.y - 1) / 2 + (0.25 - CROUCH * (data->kpr[CT] ==
+		1)) * (double)data->res.x / sprite->adj_x /tan(FOV / 360 * M_PI);
+	rdr.y = start >= 0 ? start : 0;
+	while (rdr.y < end)
+	{
+		col = get_sprite_pixel(tex_x, (double)(rdr.y - start) / (end - start),
+				data);
+		if (col > 0)
+			img_add_pixel(1, col, rdr, data);
+		rdr.y++;
+	}
+	(void)tex_x;
+}
+
+void			draw_single_sprite(t_sprite *sprite, t_data *data)
+{
+	t_vert_render	rdr;
+	int				start;
+	int				end;
+
+	rdr.dist = sprite->adj_x;
+	start = ((double)data->res.x - 1) / 2 - (-sprite->adj_y + 0.5) *
+		((double)data->res.x - 1) / 2 / sprite->adj_x / tan(FOV * M_PI / 360);
+	end = ((double)data->res.x - 1) / 2 - (-sprite->adj_y - 0.5) *
+		((double)data->res.x - 1) / 2 / sprite->adj_x / tan(FOV * M_PI / 360);
+	rdr.x = start >= 0 ? start : 0;
+	while (rdr.x < end && rdr.x < data->res.x)
+	{
+		if (rdr.x >= 0 && rdr.x < data->res.x && sprite->adj_x <
+			data->wdist[rdr.x])
+			draw_sprite_col(sprite, rdr, (double)(rdr.x - start) /
+					(end - start), data);
+		rdr.x++;
+	}
+}
+
+void			draw_sprites(t_data *data)
+{
+	int			i;
+	t_sprite	**sprites;
+	
+	sprites = retrieve_sprites(data);
+	sort_sprites(sprites);
+	i = 0;
+	while (sprites[i])
+	{
+		draw_single_sprite(sprites[i], data);
+		i++;
+	}
+	if (sprites)
+		free(sprites);
 }

@@ -18,7 +18,7 @@ int	mlx_flush_event(t_xvar *xvar)
 {
   XEvent	ev;
 
-  while (XPending(xvar->display))
+  while (XEventsQueued(xvar->display, QueuedAfterReading))
   {
      XNextEvent(xvar->display,&ev);
   }

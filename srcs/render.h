@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 21:36:12 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/08/28 09:15:30 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/08 05:59:29 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ typedef struct	s_vert_render
 
 void			cycle_angle(t_data *data);
 t_wall			next_wall(double ox, double oy, t_data *data);
+void			draw_sprites(t_data *data);
 
 #endif

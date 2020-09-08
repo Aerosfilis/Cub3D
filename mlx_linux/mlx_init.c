@@ -11,7 +11,13 @@
 
 #include	"mlx_int.h"
 
+XErrorHandler prev_handler = 0;
 
+int		handler(Display *display, XErrorEvent *error)
+{
+	if (prev_handler && error->request_code != 62)
+		prev_handler(display, error);
+}
 
 void	*mlx_init()
 {
@@ -38,6 +44,7 @@ void	*mlx_init()
 		xvar->cmap = XCreateColormap(xvar->display,xvar->root,
 				 xvar->visual,AllocNone);
 	mlx_int_rgb_conversion(xvar);
+  	prev_handler = XSetErrorHandler(&handler);
 	return (xvar);
 }
 

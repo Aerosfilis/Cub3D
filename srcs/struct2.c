@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 15:24:48 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/08/15 20:27:32 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/08 06:33:42 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,10 @@ void		new_img(t_img *scn, int x, int y, t_data *data)
 	if (!(scn->addr = mlx_get_data_addr(scn->ptr, &scn->bpp, &scn->sl,
 			&scn->endian)))
 		ft_error(ETEXTURE, data);
+}
+
+void			new_pos(t_pos *pos, size_t x, size_t y)
+{
+	pos->x = x;
+	pos->y = y;
 }

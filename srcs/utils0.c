@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:24:07 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/05 22:10:12 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/08 09:53:51 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ const char		*g_errlst[] =
 	": Invalid texture\n"
 };
 
-size_t			ft_strlen(const char *str)
+int				ft_strlen(const char *str)
 {
-	size_t		i;
+	int		i;
 
 	i = 0;
 	if (!str)
@@ -38,7 +38,7 @@ size_t			ft_strlen(const char *str)
 	return (i);
 }
 
-int				stoi(const char *str)
+int	stoi(const char *str)
 {
 	long	res;
 	int		i;
@@ -59,7 +59,7 @@ int				stoi(const char *str)
 	return (res);
 }
 
-void			*maybemalloc(size_t size, t_data *data)
+void			*maybemalloc(int size, t_data *data)
 {
 	void	*res;
 
@@ -69,16 +69,16 @@ void			*maybemalloc(size_t size, t_data *data)
 	return (res);
 }
 
-ssize_t			str_append(char **s1, const char *s2, ssize_t len, t_data *data)
+int				str_append(char **s1, const char *s2, int len, t_data *data)
 {
-	ssize_t		i;
-	ssize_t		j;
-	char		*res;
+	int		i;
+	int		j;
+	char	*res;
 
 	if (!s1 || !(*s1) || !s2)
 		ft_error(ESPNULL, data);
 	res = maybemalloc(sizeof(char) * (ft_strlen(*s1) + (len < 0 ?
-			ft_strlen(s2) : (size_t)len) + 1), data);
+			ft_strlen(s2) : len) + 1), data);
 	i = -1;
 	while ((*s1)[++i])
 		res[i] = (*s1)[i];

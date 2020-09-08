@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 13:49:23 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/08/28 09:22:12 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/08 09:54:46 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-static ssize_t	readnext(const int fd, char *buf, char **line, t_data *data)
+static int		readnext(const int fd, char *buf, char **line, t_data *data)
 {
-	ssize_t	res;
+	int	res;
 
 	if ((res = read(fd, buf, BUFSIZE - 1)) < 0)
 	{
@@ -27,11 +27,11 @@ static ssize_t	readnext(const int fd, char *buf, char **line, t_data *data)
 	return (res);
 }
 
-ssize_t			gnl(const int fd, char **line, t_data *data)
+int				gnl(const int fd, char **line, t_data *data)
 {
 	static char		buf[BUFSIZE];
-	static size_t	idx = 0;
-	static ssize_t	nb_b = 0;
+	static int	idx = 0;
+	static int	nb_b = 0;
 	size_t			i;
 
 	if ((!nb_b && (nb_b = read(fd, buf, BUFSIZE - 1)) < 0))

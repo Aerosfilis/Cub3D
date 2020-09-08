@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 17:48:02 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/06/05 22:29:08 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/08 10:04:24 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,44 @@ void			set_data_tex(char *line, t_data *data)
 	}
 }
 
+int				set_tile(char tile)
+{
+	if (tile == '1' || tile == ' ')
+		return (MAPWALL);
+	if (tile == '2')
+		return (MAPSPRITE);
+	if (tile == 'N')
+		return (MAPNORTH);
+	if (tile == 'S')
+		return (MAPSOUTH);
+	if (tile == 'E')
+		return (MAPEAST);
+	if (tile == 'W')
+		return (MAPWEST);
+	if (tile == '0')
+		return (MAPEMPTY);
+	return (-1);
+}
+
 void			set_data_map(char *line, t_data *data)
 {
-	static size_t	y = 0;
-	size_t			x;
-	static int		startset = 0;
+	static int	y = 0;
+	int			x;
+	static int	startset = 0;
 
 	x = -1;
 	while (line[++x])
 	{
-		data->map[x][y] = MAPWALL * (line[x] == '1' || line[x] == ' ') +
-			MAPSPRITE * (line[x] == '2') + MAPNORTH * (line[x] == 'N') +
-			MAPSOUTH * (line[x] == 'S') + MAPEAST * (line[x] == 'E') +
-			MAPWEST * (line[x] == 'W');
-		startset += (line[x] == 'N' || line[x] == 'S' || line[x] == 'E'
-			|| line[x] == 'W');
+		data->map[x][y] = set_tile(line[x]);
+		if (data->map[x][y] == MAPSPRITE)
+			data->nb_sprites++;
+		if (line[x] == 'N' || line[x] == 'S'
+				|| line[x] == 'E' || line[x] == 'W')
+			startset++;
 		if (((x == 0 || x == data->smap.x - 1 || y == 0 || y ==
 			data->smap.y - 1 || !line[x + 1]) && data->map[x][y] != MAPWALL)
-			|| startset > 1 || (y >= data->smap.y - 1 && startset != 1))
+			|| startset > 1 || (y >= data->smap.y - 1 && startset != 1)
+			|| data->map[x][y] < 0)
 		{
 			free(line);
 			ft_error(EINVMAP, data);

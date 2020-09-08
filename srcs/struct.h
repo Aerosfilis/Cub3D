@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/08/28 09:32:12 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/08 09:45:52 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,17 @@
 
 typedef struct		s_pos
 {
-	size_t			x;
-	size_t			y;
+	int				x;
+	int				y;
 }					t_pos;
+
+typedef struct		s_sprite
+{
+	double			x;
+	double			y;
+	double			adj_x;
+	double			adj_y;
+}					t_sprite;
 
 typedef struct		s_img
 {
@@ -76,6 +84,7 @@ typedef struct		s_data
 {
 	t_img				tex[NB_TEXTURE];
 	t_img				scn;
+	t_sprite			*sprites;
 	t_pos				res;
 	t_pos				smap;
 	double *restrict	wdist;
@@ -92,6 +101,7 @@ typedef struct		s_data
 	int					col_ceil;
 	int					col_floor;
 	int					mapfd;
+	int					nb_sprites;
 }					t_data;
 
 void				new_data(t_data *data, char *prog_name);
@@ -102,11 +112,11 @@ void				set_map(t_data *data);
 void				mlx_null(t_data *data);
 void				new_mlx(char *prog_name, t_data *data);
 void				free_mlx(t_data *data);
-void				new_pos(t_pos *pos, size_t x, size_t y);
 
 void				img_null(t_img *tex);
 void				free_img(t_img *tex, t_data *data);
 void				new_tex(int i, t_img *tex, t_data *data);
 void				new_img(t_img *scn, int x, int y, t_data *data);
+void				new_pos(t_pos *pos, size_t x, size_t y);
 
 #endif

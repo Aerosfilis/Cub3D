@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 22:42:11 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/08/28 09:40:35 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/08 16:05:58 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,15 @@ static double	wallcolision(int axis, t_data *data)
 		&& data->y > COLISIZE && data->y + COLISIZE < (double)data->smap.y)
 	{
 		if (data->map[(int)(data->x - COLISIZE * axis)]
-				[(int)(data->y - COLISIZE * (!axis))] == MAPWALL)
+				[(int)(data->y - COLISIZE * (!axis))] == MAPWALL ||
+				data->map[(int)(data->x - COLISIZE * axis)]
+				[(int)(data->y - COLISIZE * (!axis))] == MAPSPRITE)
 			return (axis ? floor(data->x - COLISIZE) + COLISIZE + 1 :
 					floor(data->y - COLISIZE) + COLISIZE + 1);
 		if (data->map[(int)(data->x + COLISIZE * axis)]
-				[(int)(data->y + COLISIZE * (!axis))] == MAPWALL)
+				[(int)(data->y + COLISIZE * (!axis))] == MAPWALL ||
+				data->map[(int)(data->x + COLISIZE * axis)]
+				[(int)(data->y + COLISIZE * (!axis))] == MAPSPRITE)
 			return (axis ? floor(data->x + COLISIZE) - COLISIZE :
 					floor(data->y + COLISIZE) - COLISIZE);
 	}
@@ -101,6 +105,7 @@ static void		update_rot(t_data *data)
 	}
 }
 
+#include <unistd.h>
 int				quit_cubed(t_data *data)
 {
 	if (data)
@@ -110,14 +115,15 @@ int				quit_cubed(t_data *data)
 
 int				loop(t_data *data)
 {
-	static int	i = 1;
+	static int	debug = 1;
 
 	update_pos(data);
 	update_rot(data);
 	cycle_angle(data);
+	draw_sprites(data);
 	mlx_put_image_to_window(data->ptr, data->win,
 			data->scn.ptr, 0, 0);
-	if (DEBUGLOOP > 0 && ++i > DEBUGLOOP)
+	if (DEBUGLOOP > 0 && ++debug > DEBUGLOOP)
 		quit_cubed(data);
 	return (0);
 }

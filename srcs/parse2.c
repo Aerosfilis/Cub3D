@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/25 18:22:55 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/09/07 13:21:25 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/08 10:05:10 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include "parse.h"
 #include <sys/types.h>
 
-static size_t	find_checkstart(char *line, t_data *data)
+static int		find_checkstart(char *line, t_data *data)
 {
-	size_t	x;
+	int		x;
 	char	cell;
 
 	x = data->smap.x - 1;
@@ -35,7 +35,7 @@ static size_t	find_checkstart(char *line, t_data *data)
 	return (x);
 }
 
-static void		check_endline(char *line, size_t x, size_t y, t_data *data)
+static void		check_endline(char *line, int x, int y, t_data *data)
 {
 	while (x < data->smap.x - 1)
 	{
@@ -48,15 +48,13 @@ static void		check_endline(char *line, size_t x, size_t y, t_data *data)
 	}
 }
 
-#include <stdio.h>
 void			check_enclosed(char *line, t_data *data)
 {
-	size_t	x;
-	size_t	y;
+	int		x;
+	int		y;
 
 	x = find_checkstart(line, data);
 	y = 0;
-	printf("%ld\n", x);
 	while (y < data->smap.y - 1)
 	{
 		while (x < data->smap.x - 1 && data->map[x][y] == MAPWALL)
@@ -66,10 +64,8 @@ void			check_enclosed(char *line, t_data *data)
 		while (x > 0 && data->map[x][y] == MAPWALL
 				&& data->map[x][y + 1] == MAPEMPTY)
 			x--;
-		printf("%ld %ld\n", x, y);
 		if (data->map[x][y + 1] != MAPWALL)
 		{
-			printf("DERP!\n");
 			free(line);
 			ft_error(EINVMAP, data);
 		}
