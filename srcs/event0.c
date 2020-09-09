@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 22:42:11 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/09/08 16:05:58 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/09 14:27:22 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int				loop(t_data *data)
 	cycle_angle(data);
 	draw_sprites(data);
 	mlx_put_image_to_window(data->ptr, data->win,
-			data->scn.ptr, 0, 0);
+		data->scn.ptr, 0, 0);
 	if (DEBUGLOOP > 0 && ++debug > DEBUGLOOP)
 		quit_cubed(data);
 	return (0);
