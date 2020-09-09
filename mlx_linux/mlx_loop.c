@@ -23,7 +23,7 @@ int		mlx_loop(t_xvar *xvar)
 	xvar->do_flush = 0;
 	while (42)
 	{
-		while (!xvar->loop_hook || XEventsQueued(xvar->display, QueuedAfterFlush))
+		while (!xvar->loop_hook || XPending(xvar->display))
 		{
 			XNextEvent(xvar->display,&ev);
 			win = xvar->win_list;
@@ -33,16 +33,12 @@ int		mlx_loop(t_xvar *xvar)
 			{
 				if (ev.type == ClientMessage &&
 						(Atom)ev.xclient.data.l[0] == xvar->wm_delete_window)
-				{
 					XDestroyWindow(xvar->display, win->window);
-					XFlush(xvar->display);
-				}
 				if (win->hooks[ev.type].hook)
 					mlx_int_param_event[ev.type](xvar, &ev, win);
 			}
 		}
+		XSync(xvar->display, False);
 		xvar->loop_hook(xvar->loop_param);
-		XFlush(xvar->display);
-		usleep(2000);
 	}
 }
