@@ -12,10 +12,11 @@
 
 #include	"mlx_int.h"
 
+
 int	mlx_put_image_to_window(t_xvar *xvar,t_win_list *win,t_img *img,
 				int x,int y)
 {
-  GC			gc;
+  GC	gc;
 
   gc = win->gc;
   if (img->gc)
@@ -30,7 +31,7 @@ int	mlx_put_image_to_window(t_xvar *xvar,t_win_list *win,t_img *img,
     XPutImage(xvar->display,img->pix, win->gc, img->image,0,0,0,0,
 	      img->width,img->height);
   XCopyArea(xvar->display,img->pix,win->window, gc,
-			0,0,img->width,img->height,x,y);
+	    0,0,img->width,img->height,x,y);
   if (xvar->do_flush)
-    XSync(xvar->display, False);
+    XFlush(xvar->display);
 }

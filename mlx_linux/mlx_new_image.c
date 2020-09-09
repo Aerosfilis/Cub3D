@@ -98,7 +98,7 @@ void	*mlx_int_new_xshm_image(t_xvar *xvar,int width,int height,int format)
       img->type = MLX_TYPE_SHM;
     }
   if (xvar->do_flush)
-    XSync(xvar->display, False);
+    XFlush(xvar->display);
   return (img);
 }
 
@@ -129,7 +129,7 @@ void	*mlx_int_new_image(t_xvar *xvar,int width, int height,int format)
   img->format = format;
   img->type = MLX_TYPE_XIMAGE;
   if (xvar->do_flush)
-    XSync(xvar->display, False);
+    XFlush(xvar->display);
   return (img);
 }
 

@@ -22,5 +22,5 @@ int		mlx_string_put(t_xvar *xvar,t_win_list *win,
    XChangeGC(xvar->display,win->gc,GCForeground,&xgcv);
    XDrawString(xvar->display,win->window,win->gc,x,y,string,strlen(string));
    if (xvar->do_flush)
-     XSync(xvar->display, False);
+     XFlush(xvar->display);
 }

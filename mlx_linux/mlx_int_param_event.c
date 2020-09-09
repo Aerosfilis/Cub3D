@@ -53,6 +53,7 @@ int	mlx_int_param_Expose(t_xvar *xvar, XEvent *ev, t_win_list *win)
     win->hooks[Expose].hook(win->hooks[Expose].param);
 }
 
+
 int	mlx_int_param_generic(t_xvar *xvar, XEvent *ev, t_win_list *win)
 {
   win->hooks[ev->type].hook(win->hooks[ev->type].param);
@@ -77,7 +78,7 @@ int	(*(mlx_int_param_event[]))() =
   mlx_int_param_generic,
   mlx_int_param_generic,
   mlx_int_param_generic,
-  mlx_int_param_generic,  /* DestroyNotify 1L<<17 */
+  mlx_int_param_generic,
   mlx_int_param_generic,
   mlx_int_param_generic,
   mlx_int_param_generic,

@@ -6,7 +6,7 @@
 #    By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 17:15:05 by cbugnon           #+#    #+#              #
-#    Updated: 2020/08/28 05:32:48 by cbugnon          ###   ########.fr        #
+#    Updated: 2020/09/09 15:43:36 by cbugnon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,6 +75,7 @@ clean:
 			rm -rf objs
 
 fclean:		clean
+			@make -C ./$(MLXDIR) --no-print-directory clean
 			rm -f $(NAME)
 
 re:			fclean all
