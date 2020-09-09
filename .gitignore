@@ -5,4 +5,5 @@ mlx_test
 *.out
 tex_*
 ParsingTester
-Cub3D
+cub3D
+*.gen
