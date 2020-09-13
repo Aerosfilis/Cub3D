@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 19:08:25 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/09/08 18:10:04 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/09/13 13:47:25 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,16 +133,16 @@ void			img_add_pixel(int option, int rgb, t_vert_render rdr,
 		return ;
 	col = mlx_get_color_value(data->ptr, rgb);
 	sha = 1;
-	if (SHADOW)
+	if (SHADOW && option != 1)
 	{
-		sha = (double)data->scn.x / 2 / tan(FOV * M_PI / 360);
+		sha = (double)data->scn.x / 2 / tan(FOV * M_PI / 360) / rdr.cos;
 		if (option == 0)
-			sha /= ((double)data->scn.y / 2 - (double)rdr.y) * rdr.cos;
+			sha /= ((double)data->scn.y / 2 - (double)rdr.y);
 		else if (option == 2)
-			sha /= ((double)rdr.y - (double)data->scn.y / 2) * rdr.cos;
-		else if (option == 1)
-			sha += rdr.dist > 2 ? rdr.dist - 1 : 1;
+			sha /= ((double)rdr.y - (double)data->scn.y / 2);
 	}
+	else if (SHADOW)
+		sha = rdr.dist > 2 ? rdr.dist - 1 : 1;
 	if (data->scn.bpp == 32)
 		depth_32(sha, col, rdr, data);
 	else if (data->scn.bpp == 24)
