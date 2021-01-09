@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 19:08:25 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/09/13 13:47:25 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/12/31 15:58:39 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 #define CROUCH 0.1
 
 #include <stdio.h>
-t_img			*get_texture(t_wall wall, t_data *data)
+t_img	*get_texture(t_wall wall, t_data *data)
 {
 	if (!wall.side && data->y >= wall.y)
 		return (&data->tex[TEX_NO]);
@@ -42,15 +42,14 @@ t_img			*get_texture(t_wall wall, t_data *data)
 		return (&data->tex[TEX_WE]);
 }
 
-double			wall_h(int option, t_vert_render rdr, t_data *data)
+double	wall_h(int option, t_vrdr rdr, t_data *data)
 {
 	return ((0.25 + CROUCH * (option && data->kpr[CT] == 1)
-			- CROUCH * (!option && data->kpr[CT] == 1))
-			* (double)data->res.x / rdr.dist / tan(FOV / 360 * M_PI));
+		- CROUCH * (!option && data->kpr[CT] == 1))
+		*(double)data->res.x / rdr.dist / tan(FOV / 360 * M_PI));
 }
 
-unsigned int	get_pixel(t_vert_render rdr, t_img *restrict tex, t_wall wall,
-							t_data *restrict data)
+unsigned int	get_pixel(t_vrdr rdr, t_img *restrict tex, t_wall wall, t_data *restrict data)
 {
 	int		pixel;
 	double	wall_h1;
@@ -75,8 +74,7 @@ unsigned int	get_pixel(t_vert_render rdr, t_img *restrict tex, t_wall wall,
 	return (rgbtoi(rgb));
 }
 
-void			depth_32(double sha, unsigned int col, t_vert_render rdr,
-							t_data *data)
+void	depth_32(double sha, unsigned int col, t_vrdr rdr, t_data *data)
 {
 	static int	endian = -1;
 	int			i;
@@ -99,7 +97,7 @@ void			depth_32(double sha, unsigned int col, t_vert_render rdr,
 	}
 }
 
-void			depth_24(double sha, unsigned int col, t_vert_render rdr,
+void			depth_24(double sha, unsigned int col, t_vrdr rdr,
 							t_data *data)
 {
 	static int	endian = -1;
@@ -123,7 +121,7 @@ void			depth_24(double sha, unsigned int col, t_vert_render rdr,
 	}
 }
 
-void			img_add_pixel(int option, int rgb, t_vert_render rdr,
+void			img_add_pixel(int option, int rgb, t_vrdr rdr,
 								t_data *data)
 {
 	unsigned int	col;
@@ -149,7 +147,7 @@ void			img_add_pixel(int option, int rgb, t_vert_render rdr,
 		depth_24(sha, col, rdr, data);
 }
 
-void			draw_vertical(t_vert_render rdr, t_wall wall, t_data *data)
+void			draw_vertical(t_vrdr rdr, t_wall wall, t_data *data)
 {
 	t_img		*tex;
 
@@ -168,7 +166,7 @@ void			draw_vertical(t_vert_render rdr, t_wall wall, t_data *data)
 
 void			cycle_angle(t_data *data)
 {
-	t_vert_render	rdr;
+	t_vrdr			rdr;
 	t_wall			wall;
 	double			sn;
 	static double	cs = 0;
@@ -308,7 +306,7 @@ int				get_sprite_pixel(double tex_x, double tex_y,
 	return (rgbtoi(rgb));
 }
 
-void			draw_sprite_col(t_sprite *sprite, t_vert_render rdr,
+void			draw_sprite_col(t_sprite *sprite, t_vrdr rdr,
 							double tex_x, t_data *data)
 {
 	int		start;
@@ -333,7 +331,7 @@ void			draw_sprite_col(t_sprite *sprite, t_vert_render rdr,
 
 void			draw_single_sprite(t_sprite *sprite, t_data *data)
 {
-	t_vert_render	rdr;
+	t_vrdr	rdr;
 	int				start;
 	int				end;
 

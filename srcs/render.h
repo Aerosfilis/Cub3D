@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 21:36:12 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/09/08 05:59:29 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/12/31 15:39:23 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ typedef struct	s_wall
 	int			side;
 }				t_wall;
 
-typedef struct	s_vert_render
+typedef struct	s_vrdr
 {
 	int			x;
 	int			y;
 	double		dist;
 	double		cos;
 	double		sin;
-}				t_vert_render;
+}				t_vrdr;
 
 void			cycle_angle(t_data *data);
 t_wall			next_wall(double ox, double oy, t_data *data);

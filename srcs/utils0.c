@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:24:07 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/09/08 09:53:51 by cbugnon          ###   ########.fr       */
+/*   Updated: 2020/12/31 15:51:20 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ void			*maybemalloc(int size, t_data *data)
 	void	*res;
 
 	res = NULL;
-	if (!(res = malloc(size)))
+	res = malloc(size);
+	if (!res)
 		ft_error(errno, data);
 	return (res);
 }
