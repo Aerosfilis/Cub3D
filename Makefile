@@ -6,7 +6,7 @@
 #    By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 17:15:05 by cbugnon           #+#    #+#              #
-#    Updated: 2020/09/09 15:43:36 by cbugnon          ###   ########.fr        #
+#    Updated: 2021/02/15 17:22:31 by cbugnon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,21 +28,17 @@ OBJ		=	$(addprefix objs/, $(SRC:.c=.o))
 
 DEP		=	$(OBJ:%.o=%.d)
 
-CC		=	gcc
-OPTI	=	O2
-CFLAGS	=	-Wall -Werror -Wextra -flto -Isrcs -$(OPTI)
 
+################################# BASE FLAGS ###################################
 
-################################### OS FLAGS ###################################
-
-OS		=	$(shell uname -s)
-ifeq ($(OS), Linux)
-	MLXDIR	=	mlx_linux/
-	GFLAGS	=	-L$(MLXDIR) -lmlx -I$(MLXDIR) -lXext -lX11 -lm
+ifeq (, $(shell which clang-9 ))
+	CC	:=	clang
 else
-	MLXDIR	=	mlx_opengl/
-	GFLAGS	=	-L$(MLXDIR) -lmlx -I$(MLXDIR) -framework OpenGL -framework AppKit -lm
+	CC	:=	clang-9
 endif
+
+OPTI	=	O2
+CFLAGS	:=	-Wall -Werror -Wextra -flto -Isrcs -$(OPTI)
 
 
 ################################# EXTRA  FLAGS #################################
@@ -59,15 +55,14 @@ all:		$(NAME)
 
 objs/%.o:	srcs/%.c
 			@mkdir -p objs
-			$(CC) $(CFLAGS) -MMD -Isrcs -c $< -o $@ $(GFLAGS)
+			$(CC) $(CFLAGS) -MMD -Imlx_linux -c $< -o $@
 
 $(NAME):	$(OBJ)
-			@make -C ./$(MLXDIR) --no-print-directory
-			$(CC) $(CFLAGS) -c srcs/render0.c -o objs/render0.o $(GFLAGS)
-			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(GFLAGS)
+			@make -C ./mlx_linux --no-print-directory
+			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -Lmlx_linux -lmlx -lX11 -lXext -lm -lbsd
 
 bonus:		$(OBJ)
-			@make -C ./$(MLXDIR) --no-print-directory
+			@make -C ./mlx_linux --no-print-directory
 			$(CC) $(CFLAGS) -DSHADOW=1 -c srcs/render0.c -o objs/render0.o $(GFLAGS)
 			$(CC) $(CFLAGS) -fuse-linker-plugin -o $(NAME) $(OBJ) $(GFLAGS)
 
