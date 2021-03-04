@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/25 15:34:31 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/09/09 14:16:32 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/04 10:18:57 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int			main(int ac, char **av)
 	new_mlx(av[0], &data);
 	mlx_hook(data.win, 2, 1L << 0, key_press, &data);
 	mlx_hook(data.win, 3, 1L << 1, key_release, &data);
-	mlx_hook(data.win, 17, 1L << 17, quit_cubed, &data);
+	mlx_hook(data.win, 17, 1L << 19, quit_cubed, &data);
+	mlx_hook(data.win, 33, 0L, quit_cubed, &data);
 	mlx_loop_hook(data.ptr, loop, &data);
 	mlx_loop(data.ptr);
 	ft_error(EMLX, &data);

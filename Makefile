@@ -6,7 +6,7 @@
 #    By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 17:15:05 by cbugnon           #+#    #+#              #
-#    Updated: 2021/02/15 17:22:31 by cbugnon          ###   ########.fr        #
+#    Updated: 2021/03/04 10:16:07 by cbugnon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ clean:
 			rm -rf objs
 
 fclean:		clean
-			@make -C ./$(MLXDIR) --no-print-directory clean
+			@make -C ./mlx_linux --no-print-directory clean
 			rm -f $(NAME)
 
 re:			fclean all
