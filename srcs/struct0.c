@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:37:51 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/09/08 10:05:36 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/05 07:23:27 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,11 @@ void			new_data(t_data *data, char *prog_name)
 	i = -1;
 	while (++i < NB_TEXTURE)
 		data->path_tex[i] = NULL;
-	if (!(data->err_msg = malloc(sizeof(char))))
-		ft_error(errno, data);
+	data->err_msg = maybemalloc(sizeof(char), data);
 	data->err_msg[0] = 0;
 	str_append(&(data->err_msg), "ERROR\n", -1, data);
 	str_append(&(data->err_msg), prog_name, -1, data);
-	if (!(data->map = malloc(sizeof(char *))))
-		ft_error(errno, data);
+	data->map = maybemalloc(sizeof(char *), data);
 	data->map[0] = 0;
 	data->sprites = NULL;
 	data->nb_sprites = 0;
@@ -44,16 +42,14 @@ void			set_map(t_data *data)
 {
 	t_pos		pos;
 
-	if (!(data->map = malloc(sizeof(char *) * data->smap.x)))
-		ft_error(errno, data);
+	data->map = maybemalloc(sizeof(char *) * data->smap.x, data);
 	pos.x = -1;
 	while (++pos.x < data->smap.x)
 		data->map[pos.x] = NULL;
 	pos.x = -1;
 	while (++pos.x < data->smap.x)
 	{
-		if (!(data->map[pos.x] = malloc(sizeof(char) * data->smap.y)))
-			ft_error(errno, data);
+		data->map[pos.x] = maybemalloc(sizeof(char) * data->smap.y, data);
 		pos.y = -1;
 		while (++pos.y < data->smap.y)
 			data->map[pos.x][pos.y] = 0;

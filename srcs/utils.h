@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:18:50 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/09/08 09:54:12 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/05 07:51:56 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define EINVARG -5
 # define EMLX -6
 # define ETEXTURE -7
+# define EBPP -8
 
 # define BUFSIZE 1025
 

@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 19:08:25 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/02/15 18:42:34 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/05 07:52:07 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,8 @@ void			img_add_pixel(int option, int rgb, t_vrdr rdr,
 		depth_32(sha, col, rdr, data);
 	else if (data->scn.bpp == 24)
 		depth_24(sha, col, rdr, data);
+	else
+		ft_error(EBPP, data);
 }
 
 void			draw_vertical(t_vrdr rdr, t_wall wall, t_data *data)
