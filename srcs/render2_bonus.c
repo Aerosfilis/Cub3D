@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render2.c                                          :+:      :+:    :+:   */
+/*   render2_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 11:07:59 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 14:15:40 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 15:11:48 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include "struct.h"
-#include "render.h"
+#include "render_bonus.h"
 #include "utils.h"
 #include "mlx.h"
 
-void			depth_32(unsigned int col, t_vrdr rdr, t_data *data)
+void			depth_32(double sha, unsigned int col, t_vrdr rdr, t_data *data)
 {
 	static int	endian = -1;
 	int			i;
@@ -26,20 +26,20 @@ void			depth_32(unsigned int col, t_vrdr rdr, t_data *data)
 	if (endian)
 	{
 		i = (rdr.x + 1) * 4 - 2 + rdr.y * data->scn.sl;
-		data->scn.addr[i] = ((col >> 8) & 255);
-		data->scn.addr[i - 1] = ((col >> 16) & 255);
-		data->scn.addr[i - 2] = ((col >> 24) & 255);
+		data->scn.addr[i] = ((col >> 8) & 255) / sha;
+		data->scn.addr[i - 1] = ((col >> 16) & 255) / sha;
+		data->scn.addr[i - 2] = ((col >> 24) & 255) / sha;
 	}
 	else
 	{
 		i = rdr.x * 4 + rdr.y * data->scn.sl;
-		data->scn.addr[i] = (col & 255);
-		data->scn.addr[i + 1] = ((col >> 8) & 255);
-		data->scn.addr[i + 2] = ((col >> 16) & 255);
+		data->scn.addr[i] = (col & 255) / sha;
+		data->scn.addr[i + 1] = ((col >> 8) & 255) / sha;
+		data->scn.addr[i + 2] = ((col >> 16) & 255) / sha;
 	}
 }
 
-void			depth_24(unsigned int col, t_vrdr rdr, t_data *data)
+void			depth_24(double sha, unsigned int col, t_vrdr rdr, t_data *data)
 {
 	static int	endian = -1;
 	int			i;
@@ -49,30 +49,42 @@ void			depth_24(unsigned int col, t_vrdr rdr, t_data *data)
 	if (data->scn.endian)
 	{
 		i = (rdr.x + 1) * 3 - 1 + rdr.y * data->scn.sl;
-		data->scn.addr[i] = (col & 255);
-		data->scn.addr[i - 1] = ((col >> 8) & 255);
-		data->scn.addr[i - 2] = ((col >> 16) & 255);
+		data->scn.addr[i] = (col & 255) / sha;
+		data->scn.addr[i - 1] = ((col >> 8) & 255) / sha;
+		data->scn.addr[i - 2] = ((col >> 16) & 255) / sha;
 	}
 	else
 	{
 		i = rdr.x * 3 + rdr.y * data->scn.sl;
-		data->scn.addr[i] = (col & 255);
-		data->scn.addr[i + 1] = ((col >> 8) & 255);
-		data->scn.addr[i + 2] = ((col >> 16) & 255);
+		data->scn.addr[i] = (col & 255) / sha;
+		data->scn.addr[i + 1] = ((col >> 8) & 255) / sha;
+		data->scn.addr[i + 2] = ((col >> 16) & 255) / sha;
 	}
 }
 
-void			img_add_pixel(int rgb, t_vrdr rdr, t_data *data)
+void			img_add_pixel(int option, int rgb, t_vrdr rdr, t_data *data)
 {
 	unsigned int	col;
+	double			sha;
 
 	if (rdr.x >= data->scn.x || rdr.y >= data->scn.y)
 		return ;
 	col = mlx_get_color_value(data->ptr, rgb);
+	sha = 1;
+	if (option != 1)
+	{
+		sha = (double)data->scn.x / 2 / tan(FOV * M_PI / 360) / rdr.cos;
+		if (option == 0)
+			sha /= ((double)data->scn.y / 2 - (double)rdr.y);
+		else if (option == 2)
+			sha /= ((double)rdr.y - (double)data->scn.y / 2);
+	}
+	else
+		sha = rdr.dist > 2 ? rdr.dist - 1 : 1;
 	if (data->scn.bpp == 32)
-		depth_32(col, rdr, data);
+		depth_32(sha, col, rdr, data);
 	else if (data->scn.bpp == 24)
-		depth_24(col, rdr, data);
+		depth_24(sha, col, rdr, data);
 	else
 		ft_error(EBPP, data);
 }

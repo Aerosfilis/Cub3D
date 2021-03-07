@@ -6,7 +6,7 @@
 #    By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 17:15:05 by cbugnon           #+#    #+#              #
-#    Updated: 2021/03/07 11:24:36 by cbugnon          ###   ########.fr        #
+#    Updated: 2021/03/07 14:25:34 by cbugnon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,29 @@ SRC		=	cub3d.c \
 			utils0.c \
 			utils1.c
 
+B_SRC	=	cub3d_bonus.c \
+			event0_bonus.c \
+			event1_bonus.c \
+			parse0.c \
+			parse1.c \
+			parse2.c \
+			render0_bonus.c \
+			render1_bonus.c \
+			render2_bonus.c \
+			render3_bonus.c \
+			struct0.c \
+			struct1.c \
+			struct2.c \
+			utils0.c \
+			utils1.c
+
 OBJ		=	$(addprefix objs/, $(SRC:.c=.o))
 
+B_OBJ	=	$(addprefix objs/, $(B_SRC:.c=.o))
+
 DEP		=	$(OBJ:%.o=%.d)
+
+B_DEP	=	$(B_OBJ:%.o=%.d)
 
 
 ################################# BASE FLAGS ###################################
@@ -65,10 +85,9 @@ $(NAME):	$(OBJ)
 			@make -C ./mlx_linux --no-print-directory
 			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -Lmlx_linux -lmlx -lX11 -lXext -lm -lbsd
 
-bonus:		$(OBJ)
+bonus:		$(B_OBJ)
 			@make -C ./mlx_linux --no-print-directory
-			$(CC) $(CFLAGS) -DSHADOW=1 -c srcs/render0.c -o objs/render0.o $(GFLAGS)
-			$(CC) $(CFLAGS) -fuse-linker-plugin -o $(NAME) $(OBJ) $(GFLAGS)
+			$(CC) $(CFLAGS) -o $(NAME) $(B_OBJ) -Lmlx_linux -lmlx -lX11 -lXext -lm -lbsd
 
 clean:
 			rm -rf objs
@@ -94,3 +113,4 @@ test:
 
 .PHONY:		all clean fclean re $(NAME)
 -include $(DEP)
+-include $(B_DEP)

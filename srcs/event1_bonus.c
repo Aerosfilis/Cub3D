@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event1.c                                           :+:      :+:    :+:   */
+/*   event1_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 12:07:43 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 14:27:13 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 14:27:55 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "mlx.h"
 #include "struct.h"
-#include "event.h"
-#include "render.h"
+#include "event_bonus.h"
+#include "render_bonus.h"
 
 int				key_press(int key, t_data *data)
 {

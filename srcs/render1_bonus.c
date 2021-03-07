@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render1.c                                          :+:      :+:    :+:   */
+/*   render1_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 12:30:05 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 14:15:28 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 13:58:33 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include "struct.h"
-#include "render.h"
+#include "render_bonus.h"
 #include "utils.h"
 
 static void		sort_sprites(t_sprite **sprites)
@@ -68,17 +68,17 @@ void			draw_sprite_col(t_sprite *sprite, t_vrdr rdr,
 	int		end;
 	int		col;
 
-	start = ((double)data->res.y - 1) / 2 - 0.25 * (double)data->res.x
-		/ sprite->adj_x / tan(FOV / 360 * M_PI);
-	end = ((double)data->res.y - 1) / 2 + 0.25 * (double)data->res.x
-		/ sprite->adj_x / tan(FOV / 360 * M_PI);
+	start = ((double)data->res.y - 1) / 2 - (0.25 + CROUCH * (data->kpr[CT] ==
+		1)) * (double)data->res.x / sprite->adj_x / tan(FOV / 360 * M_PI);
+	end = ((double)data->res.y - 1) / 2 + (0.25 - CROUCH * (data->kpr[CT] ==
+		1)) * (double)data->res.x / sprite->adj_x / tan(FOV / 360 * M_PI);
 	rdr.y = start >= 0 ? start : 0;
 	while (rdr.y < end)
 	{
 		col = get_sprite_pixel(tex_x, (double)(rdr.y - start) / (end - start),
 				data);
 		if (col > 0)
-			img_add_pixel(col, rdr, data);
+			img_add_pixel(1, col, rdr, data);
 		rdr.y++;
 	}
 	(void)tex_x;

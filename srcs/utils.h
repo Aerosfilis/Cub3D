@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:18:50 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/05 07:51:56 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 15:01:58 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ void	ft_error(int err, t_data *data);
 int		gnl(const int fd, char **line, t_data *data);
 int		get_function(const char *l);
 int		rgbtoi(int rgb[3]);
+double	mod(double n, double m);
 
 #endif

@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.h                                           :+:      :+:    :+:   */
+/*   render_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 21:36:12 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 14:50:56 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 15:12:07 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDER_H
-# define RENDER_H
+#ifndef RENDER_BONUS_H
+# define RENDER_BONUS_H
 
 # include <sys/types.h>
 # include "struct.h"
 
 # define FOV 66.0
+# define CROUCH 0.1
 
 # define POS 0
 # define STEP 1
@@ -50,7 +51,7 @@ t_wall			check_hit(double fdr[6], t_pos idr[2], t_data *data);
 
 void			draw_sprites(t_data *data);
 
-void			img_add_pixel(int rgb, t_vrdr rdr, t_data *data);
+void			img_add_pixel(int option, int rgb, t_vrdr rdr, t_data *data);
 void			cycle_angle(t_data *data);
 
 t_sprite		**retrieve_sprites(t_data *data);

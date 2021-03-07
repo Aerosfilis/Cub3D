@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 13:49:23 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/05 12:06:58 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 15:03:04 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,13 @@ inline int		rgbtoi(int rgb[3])
 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
 		return (-1);
 	return ((r << 16) + (g << 8) + b);
+}
+
+double			mod(double n, double m)
+{
+	while (n < 0)
+		n += m;
+	while (n >= m)
+		n -= m;
+	return (n);
 }

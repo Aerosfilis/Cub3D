@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render0.c                                          :+:      :+:    :+:   */
+/*   render0_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 19:08:25 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 15:02:40 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 15:04:56 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/types.h>
 #include <math.h>
-#include "render.h"
+#include "render_bonus.h"
 #include "utils.h"
 #include "mlx.h"
 #include "struct.h"
@@ -29,9 +29,11 @@ t_img			*get_texture(t_wall wall, t_data *data)
 		return (&data->tex[TEX_WE]);
 }
 
-double			wall_h(t_vrdr rdr, t_data *data)
+double			wall_h(int option, t_vrdr rdr, t_data *data)
 {
-	return (0.25 * (double)data->res.x / rdr.dist / tan(FOV / 360 * M_PI));
+	return ((0.25 + CROUCH * (option && data->kpr[CT] == 1)
+		- CROUCH * (!option && data->kpr[CT] == 1))
+		* (double)data->res.x / rdr.dist / tan(FOV / 360 * M_PI));
 }
 
 unsigned int	get_pixel(t_vrdr rdr, t_img *tex, t_wall wall, t_data *data)
@@ -40,7 +42,7 @@ unsigned int	get_pixel(t_vrdr rdr, t_img *tex, t_wall wall, t_data *data)
 	double	wall_h1;
 	int		rgb[3];
 
-	wall_h1 = wall_h(rdr, data);
+	wall_h1 = wall_h(1, rdr, data);
 	if (wall.side)
 		pixel = (int)((wall.x > data->x ? wall.y - floor(wall.y) :
 				floor(wall.y) - wall.y + 1) * tex->x);
@@ -49,7 +51,7 @@ unsigned int	get_pixel(t_vrdr rdr, t_img *tex, t_wall wall, t_data *data)
 				floor(wall.x) - wall.x + 1) * tex->x);
 	pixel = pixel * tex->bpp / 8 + (int)(((double)rdr.y -
 			(double)data->res.y / 2 + wall_h1) /
-			(wall_h(rdr, data) + wall_h1) * tex->y) * tex->sl;
+			(wall_h(0, rdr, data) + wall_h1) * tex->y) * tex->sl;
 	rgb[0] = (unsigned char)tex->addr[tex->endian != data->scn.endian ?
 		pixel + 3 * tex->bpp / 32 : pixel + tex->bpp / 16] * tex->bpp / 32;
 	rgb[1] = (unsigned char)tex->addr[tex->endian != data->scn.endian ?
@@ -66,12 +68,12 @@ void			draw_vertical(t_vrdr rdr, t_wall wall, t_data *data)
 	tex = get_texture(wall, data);
 	while (rdr.y < (int)data->res.y)
 	{
-		if (rdr.y < (double)data->res.y / 2 - wall_h(rdr, data))
-			img_add_pixel(data->col_ceil, rdr, data);
-		else if (rdr.y < (double)data->res.y / 2 + wall_h(rdr, data))
-			img_add_pixel(get_pixel(rdr, tex, wall, data), rdr, data);
+		if (rdr.y < (double)data->res.y / 2 - wall_h(1, rdr, data))
+			img_add_pixel(0, data->col_ceil, rdr, data);
+		else if (rdr.y < (double)data->res.y / 2 + wall_h(0, rdr, data))
+			img_add_pixel(1, get_pixel(rdr, tex, wall, data), rdr, data);
 		else
-			img_add_pixel(data->col_floor, rdr, data);
+			img_add_pixel(2, data->col_floor, rdr, data);
 		rdr.y++;
 	}
 }
