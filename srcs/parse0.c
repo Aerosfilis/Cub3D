@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 15:44:44 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 16:30:13 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 18:42:50 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void		init_map(t_data *data, int fd)
 		data->smap.y += ismap;
 		data->smap.x = get_function(line) != 3 || data->smap.x >
 			ft_strlen(line) ? data->smap.x : ft_strlen(line);
+		check_doublon(line, data, ismap);
 		free(line);
 	}
 	free(line);
@@ -69,7 +70,8 @@ void			parse(const char *pathname, t_data *data)
 	}
 	free(line);
 	close(data->mapfd);
-	if (data->res.x < 0 || data->res.y < 0)
+	if (data->res.x < 0 || data->res.y < 0 || data->col_ceil < 0
+			|| data->col_floor < 0)
 		ft_error(EINVSET, data);
 }
 
@@ -108,12 +110,13 @@ static int		nextrgb(char *line, size_t off, t_data *data)
 		i++;
 	while (line[i] == ' ')
 		i++;
-	if (line[i] == ',')
+	if (line[i++] != ',')
 	{
-		i++;
-		while (line[i] == ' ')
-			i++;
+		free(line);
+		ft_error(EINVSET, data);
 	}
+	while (line[i] == ' ')
+		i++;
 	if (line[i] < '0' || line[i] > '9')
 	{
 		free(line);
@@ -143,7 +146,8 @@ void			set_data_col(char *line, t_data *data)
 		data->col_ceil = rgbtoi(rgb);
 	else if (line[0] == 'F')
 		data->col_floor = rgbtoi(rgb);
-	if (line[i] || data->col_ceil < 0 || data->col_floor < 0)
+	if (line[i] || (line[0] == 'C' && data->col_ceil < 0)
+			|| (line[0] == 'F' && data->col_floor < 0))
 	{
 		free(line);
 		ft_error(EINVSET, data);

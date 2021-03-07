@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/25 18:22:55 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 12:47:31 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 18:32:55 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,22 @@ void			check_enclosed(char *line, t_data *data)
 		}
 		x++;
 	}
+}
+
+void			check_doublon(char *line, t_data *data, int ismap)
+{
+	static unsigned char	check = 0;
+	unsigned char			flag;
+
+	flag = (line[0] == 'N') + 2 * (line[0] == 'S' && line[1] == 'O') + 3
+		* (line[0] == 'W') + 4 * (line[0] == 'E') + 5 * (line[0] == 'S'
+		&& line[1] == ' ') + 6 * (line[0] == 'F') + 7 * (line[0] == 'C');
+	if (flag == 0 && line[0] != 'R')
+		return ;
+	if ((ismap && check != 0xFF) || ((1 << flag) & check))
+	{
+		free(line);
+		ft_error(EINVSET, data);
+	}
+	check |= 1 << flag;
 }

@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:37:51 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 16:30:56 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 17:06:53 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void			new_data(t_data *data, char *prog_name)
 
 	if (!data)
 		ft_error(ENULLPTR, NULL);
-	new_pos(&(data->smap), -1, -1);
+	new_pos(&(data->smap), 0, 0);
 	new_pos(&(data->res), -1, -1);
 	data->map = NULL;
 	data->mapfd = 0;
@@ -35,6 +35,8 @@ void			new_data(t_data *data, char *prog_name)
 	data->map[0] = 0;
 	data->sprites = NULL;
 	data->nb_sprites = 0;
+	data->col_ceil = -1;
+	data->col_floor = -1;
 	mlx_null(data);
 }
 
