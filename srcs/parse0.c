@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 15:44:44 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 15:43:24 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 16:30:13 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static void		init_map(t_data *data, int fd)
 		free(line);
 	}
 	free(line);
+	if (data->smap.x < 3 || data->smap.y < 3)
+		ft_error(EINVMAP, data);
 	set_map(data);
 }
 
@@ -67,6 +69,8 @@ void			parse(const char *pathname, t_data *data)
 	}
 	free(line);
 	close(data->mapfd);
+	if (data->res.x < 0 || data->res.y < 0)
+		ft_error(EINVSET, data);
 }
 
 void			set_data_res(char *line, t_data *data)

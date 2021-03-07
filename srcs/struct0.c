@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:37:51 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 13:07:15 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 16:30:56 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void			new_data(t_data *data, char *prog_name)
 
 	if (!data)
 		ft_error(ENULLPTR, NULL);
-	new_pos(&(data->smap), 0, 0);
-	new_pos(&(data->res), 0, 0);
+	new_pos(&(data->smap), -1, -1);
+	new_pos(&(data->res), -1, -1);
 	data->map = NULL;
 	data->mapfd = 0;
 	i = -1;
@@ -29,7 +29,7 @@ void			new_data(t_data *data, char *prog_name)
 		data->path_tex[i] = NULL;
 	data->err_msg = maybemalloc(sizeof(char), data);
 	data->err_msg[0] = 0;
-	str_append(&(data->err_msg), "ERROR\n", -1, data);
+	str_append(&(data->err_msg), "Error\n", -1, data);
 	str_append(&(data->err_msg), prog_name, -1, data);
 	data->map = maybemalloc(sizeof(char *), data);
 	data->map[0] = 0;

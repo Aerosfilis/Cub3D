@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 20:24:07 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/05 12:06:31 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 16:33:52 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void			ft_error(int err, t_data *data)
 	errno = err;
 	if (!data || !data->err_msg)
 	{
-		write(2, "ERROR\n", 6);
+		write(2, "Error\n", 6);
 		if (err >= 0)
 			perror("");
 		else
