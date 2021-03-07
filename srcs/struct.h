@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/05 07:23:21 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 12:02:36 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 
 # define MAPEMPTY 0
 # define MAPWALL 1
+# define MAPSPACE 2
 # define MAPSPRITE 10
 # define MAPNORTH 50
 # define MAPSOUTH 51

@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 17:48:02 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/09/08 10:04:24 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 12:48:42 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ void			set_data_tex(char *line, t_data *data)
 
 int				set_tile(char tile)
 {
-	if (tile == '1' || tile == ' ')
+	if (tile == ' ')
+		return (MAPSPACE);
+	if (tile == '1')
 		return (MAPWALL);
 	if (tile == '2')
 		return (MAPSPRITE);
@@ -98,9 +100,9 @@ void			set_data_map(char *line, t_data *data)
 				|| line[x] == 'E' || line[x] == 'W')
 			startset++;
 		if (((x == 0 || x == data->smap.x - 1 || y == 0 || y ==
-			data->smap.y - 1 || !line[x + 1]) && data->map[x][y] != MAPWALL)
-			|| startset > 1 || (y >= data->smap.y - 1 && startset != 1)
-			|| data->map[x][y] < 0)
+			data->smap.y - 1 || !line[x + 1]) && data->map[x][y] != MAPWALL
+			&& data->map[x][y] != MAPSPACE) || startset > 1 || (y
+			>= data->smap.y - 1 && startset != 1) || data->map[x][y] < 0)
 		{
 			free(line);
 			ft_error(EINVMAP, data);
