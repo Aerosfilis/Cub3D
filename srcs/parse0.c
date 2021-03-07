@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 15:44:44 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/09/08 10:08:16 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 15:43:24 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ void			set_data_res(char *line, t_data *data)
 	}
 }
 
-static int		nextrgb(char *line)
+static int		nextrgb(char *line, size_t off, t_data *data)
 {
 	size_t	i;
 
-	i = 0;
+	i = off;
 	if (line[i] < '0' || line[i] > '9')
 		return (0);
 	while (line[i] >= '0' && line[i] <= '9')
@@ -110,7 +110,12 @@ static int		nextrgb(char *line)
 		while (line[i] == ' ')
 			i++;
 	}
-	return (i);
+	if (line[i] < '0' || line[i] > '9')
+	{
+		free(line);
+		ft_error(EINVSET, data);
+	}
+	return (i - off);
 }
 
 void			set_data_col(char *line, t_data *data)
@@ -122,9 +127,9 @@ void			set_data_col(char *line, t_data *data)
 	while (line[i] == ' ')
 		i++;
 	rgb[0] = stoi(line + i);
-	i += nextrgb(line + i);
+	i += nextrgb(line, i, data);
 	rgb[1] = stoi(line + i);
-	i += nextrgb(line + i);
+	i += nextrgb(line, i, data);
 	rgb[2] = stoi(line + i);
 	while (line[i] >= '0' && line[i] <= '9')
 		i++;
