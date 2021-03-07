@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:37:51 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/05 07:23:27 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/07 13:07:15 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void			set_map(t_data *data)
 		data->map[pos.x] = maybemalloc(sizeof(char) * data->smap.y, data);
 		pos.y = -1;
 		while (++pos.y < data->smap.y)
-			data->map[pos.x][pos.y] = 0;
+			data->map[pos.x][pos.y] = MAPSPACE;
 	}
 }
 
