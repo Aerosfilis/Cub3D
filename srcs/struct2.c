@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 15:24:48 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/09/08 06:33:42 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/05 12:11:23 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void		new_img(t_img *scn, int x, int y, t_data *data)
 		ft_error(ETEXTURE, data);
 }
 
-void			new_pos(t_pos *pos, size_t x, size_t y)
+void		new_pos(t_pos *pos, size_t x, size_t y)
 {
 	pos->x = x;
 	pos->y = y;

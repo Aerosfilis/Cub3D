@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 13:49:23 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/09/08 09:54:46 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/05 12:06:58 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static int		readnext(const int fd, char *buf, char **line, t_data *data)
 int				gnl(const int fd, char **line, t_data *data)
 {
 	static char		buf[BUFSIZE];
-	static int	idx = 0;
-	static int	nb_b = 0;
+	static int		idx = 0;
+	static int		nb_b = 0;
 	size_t			i;
 
 	if ((!nb_b && (nb_b = read(fd, buf, BUFSIZE - 1)) < 0))

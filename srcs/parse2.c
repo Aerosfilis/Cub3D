@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/25 18:22:55 by cbugnon           #+#    #+#             */
-/*   Updated: 2020/09/08 10:05:10 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/05 12:11:38 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int		find_checkstart(char *line, t_data *data)
 	cell = data->map[x][0];
 	while (x > 0 && cell == MAPEMPTY)
 	{
-		if (cell != MAPWALL && cell!= MAPEMPTY)
+		if (cell != MAPWALL && cell != MAPEMPTY)
 		{
 			free(line);
 			ft_error(EINVMAP, data);

@@ -6,7 +6,7 @@
 #    By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 17:15:05 by cbugnon           #+#    #+#              #
-#    Updated: 2021/03/05 11:36:36 by cbugnon          ###   ########.fr        #
+#    Updated: 2021/03/07 11:24:36 by cbugnon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,14 @@ NAME	=	cub3D
 
 SRC		=	cub3d.c \
 			event0.c \
+			event1.c \
 			parse0.c \
 			parse1.c \
 			parse2.c \
 			render0.c \
+			render1.c \
+			render2.c \
+			render3.c \
 			struct0.c \
 			struct1.c \
 			struct2.c \

@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/25 15:34:31 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/05 11:35:59 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/05 12:06:02 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define SHADOW 0
 #endif
 
-char	g_bmpheader[] =
+char		g_bmpheader[] =
 {
 	0x42, 0x4D,
 	0x00, 0x00, 0x00, 0x00,
@@ -46,7 +46,7 @@ char	g_bmpheader[] =
 	0x00, 0x00, 0x00, 0x00
 };
 
-void	set_header(t_data *data)
+void		set_header(t_data *data)
 {
 	g_bmpheader[18] = data->scn.x & 0xFF;
 	g_bmpheader[19] = data->scn.x >> 8 & 0xFF;
@@ -59,12 +59,12 @@ void	set_header(t_data *data)
 	g_bmpheader[28] = data->scn.bpp;
 }
 
-void	save_bmp(t_data *data)
+void		save_bmp(t_data *data)
 {
 	int	fd;
 
 	fd = open("./save.bmp", O_CREAT | O_WRONLY | O_TRUNC,
-			S_IRUSR | S_IWUSR | S_IRGRP |S_IROTH);
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd < 0)
 		ft_error(errno, data);
 	set_header(data);
@@ -95,7 +95,6 @@ static int	check_arg(int ac, char **av, t_data *data)
 	return (ac == 3);
 }
 
-#include <stdio.h>
 int			main(int ac, char **av)
 {
 	t_data	data;
