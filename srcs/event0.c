@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 22:42:11 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 15:07:34 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/08 10:00:08 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ int				loop(t_data *data)
 {
 	update_pos(data);
 	update_rot(data);
-	cycle_angle(data);
+	if (data->x > 0 && data->x < (double)data->smap.x
+			&& data->y > 0 && data->y < (double)data->smap.y
+			&& data->map[(int)data->x][(int)data->y] != MAPWALL)
+		cycle_angle(data);
 	draw_sprites(data);
 	mlx_put_image_to_window(data->ptr, data->win,
 		data->scn.ptr, 0, 0);
