@@ -6,7 +6,7 @@
 #    By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 17:15:05 by cbugnon           #+#    #+#              #
-#    Updated: 2021/03/07 14:25:34 by cbugnon          ###   ########.fr        #
+#    Updated: 2021/03/08 10:53:54 by cbugnon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,14 +63,6 @@ endif
 
 OPTI	=	O2
 CFLAGS	:=	-Wall -Werror -Wextra -flto -Isrcs -$(OPTI)
-
-
-################################# EXTRA  FLAGS #################################
-
-DEBUGLOOP 	=	0
-ifneq ($(DEBUGLOOP), 0)
-	CFLAGS += -DDEBUGLOOP=$(DEBUGLOOP) -g
-endif
 
 
 ################################# MAIN OPTIONS #################################
