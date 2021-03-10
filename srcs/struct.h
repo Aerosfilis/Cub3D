@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:31:19 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 12:02:36 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/10 14:24:28 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct		s_data
 	unsigned char		kpr[USHRT_MAX];
 	char *restrict		path_tex[NB_TEXTURE];
 	char				*err_msg;
+	char				save;
 	char **restrict		map;
 	void *restrict		ptr;
 	void *restrict		win;

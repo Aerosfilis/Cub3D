@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:37:51 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 17:06:53 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/10 14:24:40 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void			new_data(t_data *data, char *prog_name)
 	data->nb_sprites = 0;
 	data->col_ceil = -1;
 	data->col_floor = -1;
+	data->save = 0;
 	mlx_null(data);
 }
 

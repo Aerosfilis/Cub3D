@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 15:24:48 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/05 12:11:23 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/10 14:39:24 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,27 @@ void		free_img(t_img *img, t_data *data)
 
 void		new_tex(int i, t_img *tex, t_data *data)
 {
+	errno = 0;
 	if (!(tex->ptr = mlx_xpm_file_to_image(data->ptr, data->path_tex[i],
 			&tex->x, &tex->y)))
-		ft_error(ETEXTURE, data);
+		ft_error(errno ? errno : ETEXTURE, data);
+	errno = 0;
 	if (!(tex->addr = mlx_get_data_addr(tex->ptr, &tex->bpp, &tex->sl,
 			&tex->endian)))
-		ft_error(ETEXTURE, data);
+		ft_error(errno ? errno : ETEXTURE, data);
 }
 
 void		new_img(t_img *scn, int x, int y, t_data *data)
 {
 	scn->x = x;
 	scn->y = y;
+	errno = 0;
 	if (!(scn->ptr = mlx_new_image(data->ptr, scn->x, scn->y)))
-		ft_error(ETEXTURE, data);
+		ft_error(errno ? errno : ETEXTURE, data);
+	errno = 0;
 	if (!(scn->addr = mlx_get_data_addr(scn->ptr, &scn->bpp, &scn->sl,
 			&scn->endian)))
-		ft_error(ETEXTURE, data);
+		ft_error(errno ? errno : ETEXTURE, data);
 }
 
 void		new_pos(t_pos *pos, size_t x, size_t y)

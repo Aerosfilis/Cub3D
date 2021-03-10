@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/25 15:34:31 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 15:11:01 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/10 14:53:49 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,10 @@ int			main(int ac, char **av)
 	t_data	data;
 
 	new_data(&data, av[0]);
-	check_arg(ac, av, &data);
+	data.save = check_arg(ac, av, &data);
 	parse(av[1], &data);
 	new_mlx(av[0], &data);
-	if (check_arg(ac, av, &data))
+	if (data.save)
 		save_bmp(&data);
 	mlx_hook(data.win, 2, 1L << 0, key_press, &data);
 	mlx_hook(data.win, 3, 1L << 1, key_release, &data);
