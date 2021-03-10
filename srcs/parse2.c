@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/25 18:22:55 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/07 18:32:55 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/10 13:28:52 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void			check_enclosed(char *line, t_data *data)
 	int		y;
 
 	x = 1;
-	y = 1;
 	while (x < data->smap.x - 1)
 	{
+		y = 1;
 		while (y < data->smap.y - 1)
 		{
 			if (data->map[x][y] != MAPWALL && data->map[x][y] != MAPSPACE
