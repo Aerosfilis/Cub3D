@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 13:55:26 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/10 14:27:34 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/10 15:56:58 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void			new_mlx(char *prog_name, t_data *data)
 	mlx_get_screen_size(data->ptr, &res[0], &res[1]);
 	data->res.x = data->res.x > res[0] && !data->save ? res[0] : data->res.x;
 	data->res.y = data->res.y > res[1] && !data->save ? res[1] : data->res.y;
-	if (!(data->win = mlx_new_window(data->ptr, data->res.x,
+	if (!data->save && !(data->win = mlx_new_window(data->ptr, data->res.x,
 					data->res.y, prog_name)))
 		ft_error(EMLX, data);
 	set_start(data);

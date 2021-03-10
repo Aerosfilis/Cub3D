@@ -6,7 +6,7 @@
 /*   By: cbugnon <cbugnon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 22:42:11 by cbugnon           #+#    #+#             */
-/*   Updated: 2021/03/08 10:00:08 by cbugnon          ###   ########.fr       */
+/*   Updated: 2021/03/10 15:59:00 by cbugnon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int				loop(t_data *data)
 			&& data->map[(int)data->x][(int)data->y] != MAPWALL)
 		cycle_angle(data);
 	draw_sprites(data);
-	mlx_put_image_to_window(data->ptr, data->win,
-		data->scn.ptr, 0, 0);
+	if (data->ptr && data->win)
+		mlx_put_image_to_window(data->ptr, data->win,
+			data->scn.ptr, 0, 0);
 	return (0);
 }
